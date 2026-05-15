@@ -1,5 +1,29 @@
 # RoughCut Agent
 
+## 面试官 30 秒版
+
+RoughCut Agent 是一个把 AI 能力产品化为短视频粗剪流程的作品集项目。它覆盖素材去重、语音识别、素材索引、内容排序、时间线生成、FFmpeg 粗剪合成、字幕配置和用户反馈偏好记忆；仓库只保留代码、文档、配置模板和脱敏示例，不上传真实素材。该流程已在真实本地素材上跑通，作品集版本用于展示产品思路、工程实现和迭代空间。
+
+## Safe Demo Without Real Video Assets
+
+面试官可以不用真实视频查看 timeline 生成逻辑：
+
+```bash
+python scripts/stage2_generate_timeline.py --input examples/sample_material_index.csv --output examples/generated_timeline_review.csv --rules configs/editing_rules.yaml --preferences configs/user_preferences.yaml --dry-run
+```
+
+这个 Demo 只读取脱敏 `examples` 数据，不读取真实素材，不渲染视频，也不会生成 final mp4。
+
+## 一键作品集审查
+
+上传或发送给面试官前，可以运行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\portfolio_audit.ps1
+```
+
+该脚本只检查 Git 已跟踪文件，用于确认 GitHub 公开性、本地状态、隐私字段、真实素材和大文件风险。
+
 RoughCut Agent 是一个面向短视频和口播素材的 AI 粗剪工作流 Agent。它把“素材去重、语音识别、素材索引、内容排序、时间线生成、FFmpeg 粗剪合成、字幕配置、用户反馈学习”串成一个可复用流程，而不是停留在单次调用 AI 的 demo。
 
 这个仓库是作品集版本：不包含真实视频素材、不包含隐私数据、不包含本地绝对路径，只展示代码、文档、配置模板和脱敏示例。

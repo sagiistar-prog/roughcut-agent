@@ -27,4 +27,11 @@
 1. 所有运行产物都写入 `output/` 目录。
 2. 临时处理文件写入 `work/` 目录。
 3. `raw/`、`raw_duplicates_quarantine/`、`work/`、`output/` 均不应提交到 GitHub。
+## 作品集审查规则
 
+1. 以后检查作品集时，优先运行 `scripts/portfolio_audit.ps1`。
+2. 禁止扫描项目目录之外的文件。
+3. 禁止扫描整个用户目录。
+4. 禁止读取 `raw/`、`work/`、`output/`、`.venv/`、`raw_duplicates_quarantine/`。
+5. 禁止把 token、真实素材、`output/` 成片提交到 GitHub。
+6. 审查脚本必须只基于 `git ls-files` 返回的已跟踪文件做隐私和大文件检查。

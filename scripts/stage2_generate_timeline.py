@@ -255,10 +255,21 @@ def write_timeline(rows: list[dict[str, Any]], output: Path) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate a reviewable rough-cut timeline.")
-    parser.add_argument("--material-index", default="output/material_index.csv", help="Input material_index.csv.")
+    parser.add_argument(
+        "--input",
+        "--material-index",
+        dest="material_index",
+        default="output/material_index.csv",
+        help="Input material_index.csv. Use --input for the safe recruiter demo.",
+    )
     parser.add_argument("--rules", default="configs/editing_rules.yaml", help="Editing rules YAML.")
     parser.add_argument("--preferences", default="configs/user_preferences.yaml", help="User preferences YAML.")
     parser.add_argument("--output", default="output/timeline_review.csv", help="Output timeline_review.csv.")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Generate only the review CSV. Do not read raw assets or render video.",
+    )
     return parser.parse_args()
 
 
@@ -274,7 +285,10 @@ def main() -> None:
     timeline = generate_timeline(material_rows, rules, preferences)
     write_timeline(timeline, Path(args.output))
     total_duration = round(sum(as_float(row["duration_seconds"]) for row in timeline), 3)
-    print(f"Wrote {args.output} with {len(timeline)} clips, estimated duration {total_duration}s.")
+    mode = "dry-run timeline" if args.dry_run else "timeline"
+    print(f"Wrote {args.output} with {len(timeline)} clips, estimated duration {total_duration}s ({mode}).")
+    if args.dry_run:
+        print("Dry run completed: no raw assets were read and no video was rendered.")
 
 
 if __name__ == "__main__":
