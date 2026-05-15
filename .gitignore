@@ -1,0 +1,17 @@
+raw/
+raw_duplicates_quarantine/
+work/
+output/
+
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.wav
+*.mp3
+
+.venv/
+__pycache__/
+*.pyc
+.env
+

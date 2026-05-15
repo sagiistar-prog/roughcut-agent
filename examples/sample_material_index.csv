@@ -1,0 +1,10 @@
+source_file,clip_id,video_duration_seconds,segment_start,segment_end,transcript,language,subtitle_zh,subtitle_en,role,quality_score,semantic_score,is_duplicate,duplicate_group,noise_flag,overlap_speech_flag,off_topic_flag,risk_note
+examples/raw/demo_001.mp4,demo_001_001,38.2,1.2,8.6,我想解决的是口播素材粗剪太耗时的问题,zh,我想解决的是口播素材粗剪太耗时的问题,I want to solve the problem that rough cutting talking-head footage takes too long,hook,0.92,0.90,false,,false,false,false,
+examples/raw/demo_001.mp4,demo_001_002,38.2,9.0,18.4,过去我需要反复打开视频听内容再手动标时间码,zh,过去我需要反复打开视频听内容再手动标时间码,I used to reopen videos repeatedly and mark timecodes by hand,problem,0.86,0.82,false,,false,false,false,
+examples/raw/demo_001.mp4,demo_001_003,38.2,19.1,30.5,这个 Agent 会先转写素材再生成可以复查的时间线,zh,这个 Agent 会先转写素材再生成可以复查的时间线,The agent first transcribes the footage and then generates a reviewable timeline,solution,0.90,0.88,false,,false,false,false,
+examples/raw/demo_002.mp4,demo_002_001,42.7,2.4,12.2,真正有价值的是把 AI 能力变成稳定流程,zh,真正有价值的是把 AI 能力变成稳定流程,The real value is turning AI capability into a stable workflow,proof,0.89,0.91,false,,false,false,false,
+examples/raw/demo_002.mp4,demo_002_002,42.7,13.0,20.1,这里我重复说了一遍开头所以这一段可以删除,zh,这里我重复说了一遍开头所以这一段可以删除,I repeated the opening here so this part can be removed,detail,0.58,0.44,false,,false,false,false,repeated meaning
+examples/raw/demo_002.mp4,demo_002_003,42.7,21.0,29.4,每个片段都会保留原因和风险提示方便人工复核,zh,每个片段都会保留原因和风险提示方便人工复核,Each segment keeps a reason and risk note for human review,proof,0.84,0.83,false,,false,false,false,
+examples/raw/demo_002.mp4,demo_002_004,42.7,30.0,37.5,最后用户反馈会写回偏好文件让下一次排序更准确,zh,最后用户反馈会写回偏好文件让下一次排序更准确,Finally user feedback is written back to preferences so the next ordering is better,cta,0.87,0.86,false,,false,false,false,
+examples/raw/demo_002.mp4,demo_002_005,42.7,37.8,41.6,背景里有人说话这段不适合强行前延,zh,背景里有人说话这段不适合强行前延,There is overlapping speech in the background so this segment should not be extended earlier,detail,0.66,0.60,false,,false,true,false,overlap speech before segment
+

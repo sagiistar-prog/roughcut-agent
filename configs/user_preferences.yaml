@@ -1,0 +1,56 @@
+user_preferences:
+  pacing:
+    preferred_total_duration_seconds: 150
+    target_total_seconds: 180
+    max_clip_count: 13
+    max_single_clip_seconds: 18
+    prefer_shorter_intro: true
+    preferred_clip_seconds:
+      min: 5
+      max: 18
+    style: brisk_but_breathable
+
+  cut_padding:
+    start_padding_seconds: 0.5
+    end_padding_seconds: 0.3
+    start_pre_roll_seconds: 0.5
+    end_post_roll_seconds: 0.3
+    prefer_extra_breath: true
+
+  content_style:
+    preferred_roles_order:
+      - hook
+      - problem
+      - solution
+      - proof
+      - cta
+    prefer:
+      - "观点明确"
+      - "信息密度高"
+      - "表达完整"
+      - "语气自然"
+    avoid:
+      - "重复铺垫"
+      - "突然切入人声"
+      - "句尾被切断"
+      - "语义跳跃"
+    preferred_topics:
+      - workflow
+      - product_value
+      - practical_result
+    avoid_topics:
+      - repeated_intro
+      - off_topic_chat
+    tone:
+      - clear
+      - concise
+      - practical
+
+  learned_from_feedback:
+    - date: "2026-05-14"
+      feedback: "不要把两句话贴太紧，开头要留一点气口。"
+      applied_rule: "所有裁切起点默认向前延伸 0.5 秒，除非前方有噪声。"
+
+  review_notes:
+    - date: "2026-05-15"
+      note: Initial portfolio preference template. Keep pacing compact, but preserve breath before speech.

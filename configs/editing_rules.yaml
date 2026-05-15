@@ -1,0 +1,98 @@
+version: 1
+project: RoughCut Agent
+
+editing_principles:
+  rhythm:
+    description: "剪辑要有节奏，不要机械拼接。"
+    rules:
+      - "避免把两句话硬贴在一起。"
+      - "相邻片段之间如果语气变化大，需要保留呼吸空间。"
+      - "优先选择表达完整、起承转合清楚的片段。"
+
+  breathing_room:
+    description: "剪切点要给人声留气口。"
+    rules:
+      - "裁切起点尽量不要正好卡在人声开始处。"
+      - "默认把 start_time 向前延伸 0.4 到 0.6 秒。"
+      - "如果前方有杂音或其他人声，则不强行前延。"
+      - "裁切终点默认向后延伸 0.2 到 0.4 秒，避免句尾被切断。"
+
+  continuity:
+    description: "保证语义连续。"
+    rules:
+      - "不要把两个语义不连续的句子直接拼接。"
+      - "如果片段之间缺少承接，需要在 risk_note 中标记。"
+      - "优先保持同一主题片段内部连续。"
+
+  quality:
+    description: "保证基础可看性。"
+    rules:
+      - "跳过明显空白、跑题、重复、音量过低、画面严重晃动的片段。"
+      - "识别文字不确定时不要强行判断，要标记人工复核。"
+
+selection:
+  prefer:
+    - information_dense
+    - complete_expression
+    - clear_audio
+    - fewer_pauses
+    - semantic_continuity
+  remove:
+    - repeated_expression
+    - duplicate_meaning
+    - silence
+    - off_topic
+    - poor_audio_quality
+  minimum_quality_score: 0.62
+  minimum_semantic_score: 0.55
+
+pacing:
+  target_total_seconds: 180
+  max_clip_count: 13
+  preferred_clip_seconds:
+    min: 4
+    max: 22
+  role_order:
+    - hook
+    - problem
+    - solution
+    - proof
+    - detail
+    - cta
+
+cut_padding:
+  start_pre_roll_seconds: 0.5
+  start_pre_roll_range_seconds:
+    min: 0.4
+    max: 0.6
+  end_post_roll_seconds: 0.3
+  end_post_roll_range_seconds:
+    min: 0.2
+    max: 0.4
+  do_not_force_pre_roll_when:
+    - noise_before
+    - overlap_speech_before
+    - unrelated_before
+  clamp_to_video_bounds: true
+
+semantic_rules:
+  require_continuity: true
+  write_risk_note_on_logic_jump: true
+  avoid_hard_join_without_transition: true
+
+subtitles:
+  enabled: true
+  bilingual: true
+  primary_language: zh
+  secondary_language: en
+  normalize_recognition_typos: true
+  keep_original_transcript_for_review: true
+
+transcript_replacements: {}
+
+safety:
+  never_delete_raw: true
+  never_upload_raw: true
+  ignore_quarantine_dir: raw_duplicates_quarantine
+  require_timeline_before_render: true
+  keep_intermediate_files: true

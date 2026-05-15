@@ -1,0 +1,8 @@
+order,source_file,action,tag,comment
+1,examples/raw/demo_001.mp4,keep,strong_hook,开头问题意识清楚，可以保留类似表达
+2,examples/raw/demo_001.mp4,keep,clear_problem,痛点解释自然，节奏可以略快
+3,examples/raw/demo_001.mp4,extend_end,needs_breath,句尾不要切太紧
+4,examples/raw/demo_002.mp4,keep,product_value,这句很适合面试介绍
+5,examples/raw/demo_002.mp4,keep,reviewability,保留可复查这个卖点
+6,examples/raw/demo_002.mp4,shorten,too_slow,结尾可以更短一点
+
