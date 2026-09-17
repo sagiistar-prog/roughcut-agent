@@ -96,3 +96,7 @@ safety:
   ignore_quarantine_dir: raw_duplicates_quarantine
   require_timeline_before_render: true
   keep_intermediate_files: true
+
+# Validation: reject non-finite, negative, reversed or out-of-media time ranges.
+# The total duration budget also applies to the first clip.
+# Tighter-pacing feedback updates both clip maximum fields consistently.

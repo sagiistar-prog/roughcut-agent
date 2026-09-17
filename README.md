@@ -1,4 +1,23 @@
-# RoughCut Agent
+# RoughCut Review
+
+
+[产品案例与指标](docs/product-case.md) | [能力证据](docs/capability-evidence.json) | [验收与边界](docs/validation.md)
+
+## 面试官 30 秒版
+
+从素材索引生成可人工复核的粗剪时间线。时间线先于渲染，风险说明先于自动执行。非法时间码不进入剪辑，反馈必须实际影响下一次片段长度。
+
+当前可验证能力：**timeline_only**。仅依据输入索引和规则排序，不读取媒体、不运行 ASR、不渲染视频。 质量与语义分数来自输入，不代表本次进行了模型评估。
+
+[插件使用与产品取舍](docs/plugin.md) · [输入示例](examples/plugin-input.json) · [输入契约](schemas/input.schema.json) · [维护记录](CHANGELOG.md)
+
+```bash
+python -m pip install -r requirements-plugin.txt
+python scripts/plugin_run.py --input examples/plugin-input.json
+```
+
+## 原有工作流与详细说明
+
 
 ## 面试官 30 秒版
 
@@ -45,7 +64,7 @@ roughcut-agent
 │   ├── editing-principles.md
 │   └── interview-summary.md
 ├── skills
-│   └── video-auto-editor
+│   └── roughcut-planner
 │       └── SKILL.md
 ├── scripts
 │   ├── dedupe_raw_videos.py

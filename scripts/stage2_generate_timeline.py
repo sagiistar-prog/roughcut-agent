@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import csv
 from pathlib import Path
 from typing import Any
@@ -166,6 +167,18 @@ def build_reason(row: dict[str, str], score: float) -> str:
     return "; ".join(reasons)
 
 
+def invalid_time_reason(row: dict) -> str | None:
+    try:
+        start, end, duration = (float(row[key]) for key in ("segment_start", "segment_end", "video_duration_seconds"))
+    except (KeyError, ValueError, TypeError):
+        return "missing or invalid time value"
+    if not all(math.isfinite(value) for value in (start, end, duration)):
+        return "time values must be finite"
+    if not 0 <= start < end <= duration:
+        return "expected 0 <= segment_start < segment_end <= video_duration_seconds"
+    return None
+
+
 def generate_timeline(material_rows: list[dict[str, str]], rules: dict[str, Any], preferences: dict[str, Any]) -> list[dict[str, Any]]:
     preferences = preference_root(preferences)
     role_order = (
@@ -188,6 +201,8 @@ def generate_timeline(material_rows: list[dict[str, str]], rules: dict[str, Any]
 
     candidates = []
     for row in material_rows:
+        if invalid_time_reason(row):
+            continue
         transcript = (row.get("transcript") or "").strip()
         score = score_row(row, preferences, rules)
         if not transcript:
@@ -214,7 +229,9 @@ def generate_timeline(material_rows: list[dict[str, str]], rules: dict[str, Any]
             end_time = round(start_time + max_single_clip, 3)
             duration = round(max_single_clip, 3)
             adjustment_risks.append("trimmed to max_single_clip_seconds preference; review sentence ending")
-        if target_total and total_duration + duration > target_total and timeline:
+        if duration <= 0:
+            continue
+        if target_total and total_duration + duration > target_total:
             continue
 
         risk_notes = []

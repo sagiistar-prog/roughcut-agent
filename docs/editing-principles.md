@@ -42,3 +42,7 @@ RoughCut Agent 的剪辑原则用于指导时间线生成、剪切点调整和�
 
 删除重复表达、意思重复、空白、跑题、质量差的片段。被删除的原因应尽量能从索引字段或报告中看出来。
 
+
+## Timeline validation and feedback
+
+Invalid time ranges are excluded before ranking. The total duration budget applies to every clip, including the first. Shorter-pacing feedback synchronizes `preferred_clip_seconds.max` and `max_single_clip_seconds`; rendering still requires human timeline review.

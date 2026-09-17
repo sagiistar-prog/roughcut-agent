@@ -1,0 +1,4 @@
+interface:
+  display_name: "roughcut-agent"
+  short_description: "Create reviewable rough-cut timelines from a material index and editing preferences. Use before rend"
+  default_prompt: "Use $roughcut-planner to help complete the task with traceable inputs and reviewable outputs."

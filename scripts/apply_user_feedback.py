@@ -70,6 +70,7 @@ def update_preferences(preferences: dict[str, Any], summary: dict[str, Any], fee
         root["pacing"]["style"] = "tighter_with_breath"
         preferred = root["pacing"].setdefault("preferred_clip_seconds", {"min": 4, "max": 16})
         preferred["max"] = min(int(preferred.get("max", 16)), 16)
+        root["pacing"]["max_single_clip_seconds"] = min(float(root["pacing"].get("max_single_clip_seconds", 16)), preferred["max"])
 
     if "avoid cutting sentence endings too tightly" in signals:
         root["cut_padding"]["end_padding_seconds"] = max(

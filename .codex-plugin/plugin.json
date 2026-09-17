@@ -1,0 +1,26 @@
+{
+  "name": "roughcut-agent",
+  "version": "0.2.0",
+  "description": "从素材索引生成可人工复核的粗剪时间线",
+  "author": {
+    "name": "Oscar Qi",
+    "url": "https://github.com/sagiistar-prog"
+  },
+  "repository": "https://github.com/sagiistar-prog/roughcut-agent",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "RoughCut Review",
+    "shortDescription": "从素材索引生成可人工复核的粗剪时间线",
+    "longDescription": "从素材索引生成可人工复核的粗剪时间线。仅依据输入索引和规则排序，不读取媒体、不运行 ASR、不渲染视频。质量与语义分数来自输入，不代表本次进行了模型评估。",
+    "developerName": "Oscar Qi",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "从素材索引生成可人工复核的粗剪时间线，先使用仓库内的虚构样例。"
+    ]
+  }
+}
