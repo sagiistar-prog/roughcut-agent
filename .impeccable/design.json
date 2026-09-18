@@ -1,0 +1,455 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T10:17:26.521Z",
+  "title": "Design System: RoughCut 审核台",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "冷灰纸面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00414 271.37)",
+          "oklch(26.43% 0.00414 271.37)",
+          "oklch(37.86% 0.00414 271.37)",
+          "oklch(49.29% 0.00414 271.37)",
+          "oklch(60.71% 0.00414 271.37)",
+          "oklch(72.14% 0.00414 271.37)",
+          "oklch(83.57% 0.00414 271.37)",
+          "oklch(95.00% 0.00414 271.37)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "白工作面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 0.00)",
+          "oklch(26.43% 0.00000 0.00)",
+          "oklch(37.86% 0.00000 0.00)",
+          "oklch(49.29% 0.00000 0.00)",
+          "oklch(60.71% 0.00000 0.00)",
+          "oklch(72.14% 0.00000 0.00)",
+          "oklch(83.57% 0.00000 0.00)",
+          "oklch(95.00% 0.00000 0.00)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "深灰正文",
+        "tonalRamp": [
+          "oklch(15.00% 0.04207 268.40)",
+          "oklch(26.43% 0.04207 268.40)",
+          "oklch(37.86% 0.04207 268.40)",
+          "oklch(49.29% 0.04207 268.40)",
+          "oklch(60.71% 0.04207 268.40)",
+          "oklch(72.14% 0.04207 268.40)",
+          "oklch(83.57% 0.04207 268.40)",
+          "oklch(95.00% 0.04207 268.40)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "蓝灰辅助字",
+        "tonalRamp": [
+          "oklch(15.00% 0.03511 268.71)",
+          "oklch(26.43% 0.03511 268.71)",
+          "oklch(37.86% 0.03511 268.71)",
+          "oklch(49.29% 0.03511 268.71)",
+          "oklch(60.71% 0.03511 268.71)",
+          "oklch(72.14% 0.03511 268.71)",
+          "oklch(83.57% 0.03511 268.71)",
+          "oklch(95.00% 0.03511 268.71)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "冷灰分隔线",
+        "tonalRamp": [
+          "oklch(15.00% 0.01432 268.48)",
+          "oklch(26.43% 0.01432 268.48)",
+          "oklch(37.86% 0.01432 268.48)",
+          "oklch(49.29% 0.01432 268.48)",
+          "oklch(60.71% 0.01432 268.48)",
+          "oklch(72.14% 0.01432 268.48)",
+          "oklch(83.57% 0.01432 268.48)",
+          "oklch(95.00% 0.01432 268.48)"
+        ]
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "审核蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.15560 264.28)",
+          "oklch(26.43% 0.15560 264.28)",
+          "oklch(37.86% 0.15560 264.28)",
+          "oklch(49.29% 0.15560 264.28)",
+          "oklch(60.71% 0.15560 264.28)",
+          "oklch(72.14% 0.15560 264.28)",
+          "oklch(83.57% 0.15560 264.28)",
+          "oklch(95.00% 0.15560 264.28)"
+        ]
+      },
+      "purple": {
+        "role": "secondary",
+        "displayName": "定位紫",
+        "tonalRamp": [
+          "oklch(15.00% 0.13827 287.04)",
+          "oklch(26.43% 0.13827 287.04)",
+          "oklch(37.86% 0.13827 287.04)",
+          "oklch(49.29% 0.13827 287.04)",
+          "oklch(60.71% 0.13827 287.04)",
+          "oklch(72.14% 0.13827 287.04)",
+          "oklch(83.57% 0.13827 287.04)",
+          "oklch(95.00% 0.13827 287.04)"
+        ]
+      },
+      "selection": {
+        "role": "secondary",
+        "displayName": "浅紫选择面",
+        "tonalRamp": [
+          "oklch(15.00% 0.01895 295.86)",
+          "oklch(26.43% 0.01895 295.86)",
+          "oklch(37.86% 0.01895 295.86)",
+          "oklch(49.29% 0.01895 295.86)",
+          "oklch(60.71% 0.01895 295.86)",
+          "oklch(72.14% 0.01895 295.86)",
+          "oklch(83.57% 0.01895 295.86)",
+          "oklch(95.00% 0.01895 295.86)"
+        ]
+      },
+      "button-hover": {
+        "role": "neutral",
+        "displayName": "普通按钮悬停面",
+        "tonalRamp": [
+          "oklch(15.00% 0.01412 268.49)",
+          "oklch(26.43% 0.01412 268.49)",
+          "oklch(37.86% 0.01412 268.49)",
+          "oklch(49.29% 0.01412 268.49)",
+          "oklch(60.71% 0.01412 268.49)",
+          "oklch(72.14% 0.01412 268.49)",
+          "oklch(83.57% 0.01412 268.49)",
+          "oklch(95.00% 0.01412 268.49)"
+        ]
+      },
+      "button-hover-border": {
+        "role": "neutral",
+        "displayName": "普通按钮悬停边框",
+        "tonalRamp": [
+          "oklch(15.00% 0.04698 268.55)",
+          "oklch(26.43% 0.04698 268.55)",
+          "oklch(37.86% 0.04698 268.55)",
+          "oklch(49.29% 0.04698 268.55)",
+          "oklch(60.71% 0.04698 268.55)",
+          "oklch(72.14% 0.04698 268.55)",
+          "oklch(83.57% 0.04698 268.55)",
+          "oklch(95.00% 0.04698 268.55)"
+        ]
+      },
+      "button-disabled": {
+        "role": "neutral",
+        "displayName": "普通按钮禁用面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00868 264.52)",
+          "oklch(26.43% 0.00868 264.52)",
+          "oklch(37.86% 0.00868 264.52)",
+          "oklch(49.29% 0.00868 264.52)",
+          "oklch(60.71% 0.00868 264.52)",
+          "oklch(72.14% 0.00868 264.52)",
+          "oklch(83.57% 0.00868 264.52)",
+          "oklch(95.00% 0.00868 264.52)"
+        ]
+      },
+      "button-disabled-text": {
+        "role": "neutral",
+        "displayName": "普通按钮禁用字",
+        "tonalRamp": [
+          "oklch(15.00% 0.03650 265.91)",
+          "oklch(26.43% 0.03650 265.91)",
+          "oklch(37.86% 0.03650 265.91)",
+          "oklch(49.29% 0.03650 265.91)",
+          "oklch(60.71% 0.03650 265.91)",
+          "oklch(72.14% 0.03650 265.91)",
+          "oklch(83.57% 0.03650 265.91)",
+          "oklch(95.00% 0.03650 265.91)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "主按钮悬停蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.14122 264.29)",
+          "oklch(26.43% 0.14122 264.29)",
+          "oklch(37.86% 0.14122 264.29)",
+          "oklch(49.29% 0.14122 264.29)",
+          "oklch(60.71% 0.14122 264.29)",
+          "oklch(72.14% 0.14122 264.29)",
+          "oklch(83.57% 0.14122 264.29)",
+          "oklch(95.00% 0.14122 264.29)"
+        ]
+      },
+      "primary-disabled": {
+        "role": "neutral",
+        "displayName": "主按钮禁用面",
+        "tonalRamp": [
+          "oklch(15.00% 0.01421 268.49)",
+          "oklch(26.43% 0.01421 268.49)",
+          "oklch(37.86% 0.01421 268.49)",
+          "oklch(49.29% 0.01421 268.49)",
+          "oklch(60.71% 0.01421 268.49)",
+          "oklch(72.14% 0.01421 268.49)",
+          "oklch(83.57% 0.01421 268.49)",
+          "oklch(95.00% 0.01421 268.49)"
+        ]
+      },
+      "primary-disabled-text": {
+        "role": "neutral",
+        "displayName": "主按钮禁用字",
+        "tonalRamp": [
+          "oklch(15.00% 0.04022 265.69)",
+          "oklch(26.43% 0.04022 265.69)",
+          "oklch(37.86% 0.04022 265.69)",
+          "oklch(49.29% 0.04022 265.69)",
+          "oklch(60.71% 0.04022 265.69)",
+          "oklch(72.14% 0.04022 265.69)",
+          "oklch(83.57% 0.04022 265.69)",
+          "oklch(95.00% 0.04022 265.69)"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "错误红",
+        "tonalRamp": [
+          "oklch(15.00% 0.15213 15.11)",
+          "oklch(26.43% 0.15213 15.11)",
+          "oklch(37.86% 0.15213 15.11)",
+          "oklch(49.29% 0.15213 15.11)",
+          "oklch(60.71% 0.15213 15.11)",
+          "oklch(72.14% 0.15213 15.11)",
+          "oklch(83.57% 0.15213 15.11)",
+          "oklch(95.00% 0.15213 15.11)"
+        ]
+      },
+      "preview": {
+        "role": "neutral",
+        "displayName": "未关联预览灰",
+        "tonalRamp": [
+          "oklch(15.00% 0.01258 271.28)",
+          "oklch(26.43% 0.01258 271.28)",
+          "oklch(37.86% 0.01258 271.28)",
+          "oklch(49.29% 0.01258 271.28)",
+          "oklch(60.71% 0.01258 271.28)",
+          "oklch(72.14% 0.01258 271.28)",
+          "oklch(83.57% 0.01258 271.28)",
+          "oklch(95.00% 0.01258 271.28)"
+        ]
+      },
+      "video": {
+        "role": "neutral",
+        "displayName": "视频深底",
+        "tonalRamp": [
+          "oklch(15.00% 0.03179 268.24)",
+          "oklch(26.43% 0.03179 268.24)",
+          "oklch(37.86% 0.03179 268.24)",
+          "oklch(49.29% 0.03179 268.24)",
+          "oklch(60.71% 0.03179 268.24)",
+          "oklch(72.14% 0.03179 268.24)",
+          "oklch(83.57% 0.03179 268.24)",
+          "oklch(95.00% 0.03179 268.24)"
+        ]
+      },
+      "text-selection": {
+        "role": "neutral",
+        "displayName": "文字选区蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.03499 273.25)",
+          "oklch(26.43% 0.03499 273.25)",
+          "oklch(37.86% 0.03499 273.25)",
+          "oklch(49.29% 0.03499 273.25)",
+          "oklch(60.71% 0.03499 273.25)",
+          "oklch(72.14% 0.03499 273.25)",
+          "oklch(83.57% 0.03499 273.25)",
+          "oklch(95.00% 0.03499 273.25)"
+        ]
+      },
+      "scrollbar": {
+        "role": "neutral",
+        "displayName": "滚动条蓝灰",
+        "tonalRamp": [
+          "oklch(15.00% 0.03817 269.73)",
+          "oklch(26.43% 0.03817 269.73)",
+          "oklch(37.86% 0.03817 269.73)",
+          "oklch(49.29% 0.03817 269.73)",
+          "oklch(60.71% 0.03817 269.73)",
+          "oklch(72.14% 0.03817 269.73)",
+          "oklch(83.57% 0.03817 269.73)",
+          "oklch(95.00% 0.03817 269.73)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "页标题",
+        "purpose": "弹性主标题；800px 以下改为 29px。"
+      },
+      "title": {
+        "displayName": "区域标题",
+        "purpose": "项目名称与区域标题。"
+      },
+      "body": {
+        "displayName": "正文与按钮",
+        "purpose": "离线系统字体栈；段落最大 70ch。"
+      },
+      "transcript": {
+        "displayName": "候选正文",
+        "purpose": "15px 连续阅读正文，允许长词换行。"
+      },
+      "utility": {
+        "displayName": "辅助信息",
+        "purpose": "状态、确认和简短说明。"
+      },
+      "label": {
+        "displayName": "时间及标注",
+        "purpose": "紧凑元信息；数字对齐由 tabular-nums 单独施加。"
+      },
+      "brand": {
+        "displayName": "品牌入口",
+        "purpose": "页头唯一品牌返回入口；手机 20px。"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "按钮与候选背景使用的实际 CSS 缓动。"
+      },
+      {
+        "name": "button-transition",
+        "value": "background .16s var(--ease), border-color .16s var(--ease)",
+        "purpose": "按钮 hover 颜色变化，不作位置或尺度动画。"
+      },
+      {
+        "name": "row-transition",
+        "value": "background .2s var(--ease)",
+        "purpose": "候选行当前态背景变化。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition:none!important;scroll-behavior:auto!important",
+        "purpose": "prefers-reduced-motion: reduce 下的全局覆盖。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "single-column",
+        "value": "800px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "主按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "导入与导出动作；包含 hover、focus 和原生 disabled 状态，示例不会执行导出。",
+      "html": "<button class=\"ds-primary\">导出审核时间线</button>",
+      "css": ".ds-primary{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;border:1px solid var(--blue,#284eab);border-radius:7px;background:var(--blue,#284eab);color:#fff;padding:9px 16px;cursor:pointer;min-height:44px;transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-primary:hover{background:#1e3f91;border-color:var(--blue,#284eab)}.ds-primary:disabled{background:#e1e5ef;color:#606b83;cursor:not-allowed;border-color:var(--line,#d8dce6)}.ds-primary:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none!important}}"
+    },
+    {
+      "name": "普通按钮",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "保存、应用切点与媒体动作的普通按钮；移动按钮另有紧凑透明覆盖。",
+      "html": "<button class=\"ds-secondary\">保存审核会话</button>",
+      "css": ".ds-secondary{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;border:1px solid var(--line,#d8dce6);border-radius:7px;background:var(--surface,#fff);color:var(--ink,#222a40);padding:9px 16px;cursor:pointer;min-height:44px;transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-secondary:hover{background:#e9edf7;border-color:#9ca8c7}.ds-secondary:disabled{background:#ebeef4;color:#667086;cursor:not-allowed;border-color:var(--line,#d8dce6)}.ds-secondary:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none!important}}"
+    },
+    {
+      "name": "切点输入",
+      "kind": "input",
+      "refersTo": "time-input",
+      "description": "原生数字输入；秒为单位，step 为 0.001，数字对齐不依赖独立等宽字体。",
+      "html": "<label class=\"ds-time-label\">入点 / 秒<input class=\"ds-time-input\" type=\"number\" min=\"0\" step=\"0.001\" value=\"0.7\" required></label>",
+      "css": ".ds-time-label{font:12px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;color:var(--muted,#596176)}.ds-time-input{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;display:block;width:100%;padding:10px 12px;margin-top:6px;border:1px solid var(--line,#d8dce6);border-radius:7px;color:var(--ink,#222a40);font-variant-numeric:tabular-nums;caret-color:var(--purple,#584aa3)}.ds-time-input:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}"
+    },
+    {
+      "name": "当前候选行",
+      "kind": "custom",
+      "refersTo": "transcript-row-current",
+      "description": "虚构内容展示当前与保留两种独立状态；实际打开、选择和移动由 review.js 处理。",
+      "html": "<article class=\"ds-clip ds-current\"><input class=\"ds-keep\" type=\"checkbox\" checked aria-label=\"保留片段 1\"><button class=\"ds-clip-main\" aria-pressed=\"true\" aria-label=\"查看片段 1\"><span class=\"ds-clip-time\">1 / 0.70 — 8.80 s</span><p class=\"ds-transcript\">虚构示例：先听一句，再决定留下什么。</p><p class=\"ds-clip-note\">demo_001.mp4</p></button><div class=\"ds-move\"><button class=\"ds-move-button\" disabled aria-label=\"上移片段 1\">上移</button><button class=\"ds-move-button\" aria-label=\"下移片段 1\">下移</button></div></article>",
+      "css": ".ds-clip{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;color:var(--ink,#222a40);display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:12px;padding:20px 10px;border-bottom:1px solid var(--line,#d8dce6);border-radius:0;transition:background .2s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-current{background:var(--selection,#eeebf9)}.ds-keep{width:18px;height:18px;accent-color:var(--blue,#284eab);margin-top:7px;cursor:pointer}.ds-clip-main{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;background:transparent;color:var(--ink,#222a40);border:0;border-radius:7px;text-align:left;padding:0;line-height:1.7;min-width:0;min-height:44px;align-self:start;cursor:pointer}.ds-clip-main:hover{background:transparent}.ds-clip-time{display:block;font-size:12px;color:var(--muted,#596176);font-variant-numeric:tabular-nums;margin-bottom:6px}.ds-transcript{margin:0;font-size:15px;overflow-wrap:anywhere;max-width:70ch}.ds-clip-note{margin:6px 0 0;font-size:12px;color:var(--muted,#596176)}.ds-move{display:flex;flex-direction:column;gap:4px}.ds-move-button{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;border:1px solid var(--line,#d8dce6);border-radius:7px;background:var(--surface,#fff);color:var(--ink,#222a40);padding:9px 16px;cursor:pointer;min-height:44px;transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-move-button:hover{background:#e9edf7;border-color:#9ca8c7}.ds-move-button:disabled{background:#ebeef4;color:#667086;cursor:not-allowed;border-color:var(--line,#d8dce6)}.ds-move-button:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-move-button{transition:none!important}}.ds-move .ds-move-button{padding:4px 8px;min-height:36px;font-size:12px;background:transparent}.ds-clip-main:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}.ds-keep:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(max-width:800px){.ds-clip{padding:18px 4px;gap:8px}.ds-move .ds-move-button{padding:4px 6px}}@media(prefers-reduced-motion:reduce){.ds-clip{transition:none!important}}"
+    },
+    {
+      "name": "已选时间线项",
+      "kind": "custom",
+      "refersTo": "timeline-item",
+      "description": "紫色项代表保留，描边代表当前；容器横向滚动，文字单行省略。",
+      "html": "<div class=\"ds-strip\" aria-label=\"已选片段顺序\"><button class=\"ds-timeline-item\" aria-current=\"true\">1 / 8.10 s<span class=\"ds-timeline-text\">虚构示例片段</span></button><button class=\"ds-timeline-item\" aria-current=\"false\">2 / 9.90 s<span class=\"ds-timeline-text\">另一段虚构示例</span></button></div>",
+      "css": ".ds-strip{display:flex;gap:8px;overflow-x:auto;padding:3px 3px 14px;min-height:70px}.ds-timeline-item{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;border:1px solid var(--line,#d8dce6);border-radius:7px;background:var(--surface,#fff);color:var(--ink,#222a40);padding:9px 16px;cursor:pointer;min-height:44px;transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-timeline-item:hover{background:#e9edf7;border-color:#9ca8c7}.ds-timeline-item:disabled{background:#ebeef4;color:#667086;cursor:not-allowed;border-color:var(--line,#d8dce6)}.ds-timeline-item:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-timeline-item{transition:none!important}}.ds-timeline-item{flex:0 0 144px;text-align:left;background:var(--selection,#eeebf9);color:var(--purple,#584aa3);border:0;font-size:12px;font-variant-numeric:tabular-nums}.ds-timeline-item:hover{background:var(--selection,#eeebf9)}.ds-timeline-item[aria-current=true]{outline:2px solid var(--purple,#584aa3);outline-offset:0}.ds-timeline-text{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;max-width:116px}"
+    },
+    {
+      "name": "未关联试听面板",
+      "kind": "card",
+      "refersTo": "preview-panel",
+      "description": "白色工作面及媒体空态；点阵仅为空态，未关联时试听禁用。这里展示结构，不加载文件。",
+      "html": "<aside class=\"ds-preview-panel\" aria-label=\"片段试听\"><div class=\"ds-preview\"><div class=\"ds-media-empty\"><div class=\"ds-empty-mark\" aria-hidden=\"true\"></div><p class=\"ds-preview-copy\">选择源视频后试听</p></div></div><p class=\"ds-source\">demo_001.mp4</p><div class=\"ds-media-actions\"><button class=\"ds-media-button\">关联源视频</button><button class=\"ds-media-button\" disabled>试听片段</button></div><p class=\"ds-media-state\" role=\"status\">仅在当前页面读取，不上传。</p></aside>",
+      "css": ".ds-preview-panel{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;color:var(--ink,#222a40);position:sticky;top:24px;background:var(--surface,#fff);padding:24px;border-radius:var(--radius,12px)}.ds-preview{background:#e3e6ef;border-radius:var(--radius,12px);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}.ds-media-empty{text-align:center}.ds-empty-mark{width:74px;height:48px;margin:0 auto 20px;background:radial-gradient(circle,var(--purple,#584aa3) 1.5px,transparent 2px);background-size:12px 12px;opacity:.5}.ds-preview-copy{margin:0;font-size:14px;color:var(--muted,#596176)}.ds-source{overflow-wrap:anywhere;font-size:13px;color:var(--muted,#596176);margin:16px 0 12px}.ds-media-actions{display:flex;gap:10px;flex-wrap:wrap}.ds-media-state{font-size:12px;color:var(--muted,#596176);margin:10px 0 20px}.ds-media-button{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;border:1px solid var(--line,#d8dce6);border-radius:7px;background:var(--surface,#fff);color:var(--ink,#222a40);padding:9px 16px;cursor:pointer;min-height:44px;transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-media-button:hover{background:#e9edf7;border-color:#9ca8c7}.ds-media-button:disabled{background:#ebeef4;color:#667086;cursor:not-allowed;border-color:var(--line,#d8dce6)}.ds-media-button:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-media-button{transition:none!important}}@media(max-width:800px){.ds-preview-panel{position:static;padding:20px}}"
+    },
+    {
+      "name": "品牌入口",
+      "kind": "nav",
+      "refersTo": "brand-link",
+      "description": "页头只有品牌返回与本地说明，未实现独立导航菜单。",
+      "html": "<header class=\"ds-header\"><a class=\"ds-brand\" href=\"/\">RoughCut <span class=\"ds-brand-caption\">审核台</span></a><span class=\"ds-local\">素材留在本机</span></header>",
+      "css": ".ds-header{font:16px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;max-width:1360px;margin:auto;padding:24px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line,#d8dce6)}.ds-brand{font-size:22px;font-weight:700;text-decoration:none;color:var(--ink,#222a40);letter-spacing:-.02em}.ds-brand-caption{font-size:14px;font-weight:400;color:var(--muted,#596176);margin-left:12px}.ds-local{font-size:13px;color:var(--muted,#596176)}.ds-brand:focus-visible{outline:3px solid var(--purple,#584aa3);outline-offset:3px}@media(max-width:800px){.ds-header{padding:20px}.ds-brand{font-size:20px}.ds-brand-caption{margin-left:8px}.ds-local{font-size:11px}}"
+    },
+    {
+      "name": "切点局部错误",
+      "kind": "custom",
+      "refersTo": "local-error",
+      "description": "错误靠近相关操作并有 status 语义；普通态由 notice 清掉 error class。",
+      "html": "<p class=\"ds-trim-status ds-error\" role=\"status\">切点无效：入点应小于出点，且不能超出源视频。</p>",
+      "css": ".ds-trim-status{font:14px/1.6 ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;color:var(--ink,#222a40);margin:12px 0 0;min-height:22px;max-width:70ch}.ds-trim-status.ds-error{color:#9b263c}"
+    }
+  ],
+  "narrative": {
+    "northStar": "字幕校对表",
+    "overview": "冷灰底承接连续转写，白色工作面容纳试听和切点输入；蓝色用于推进操作，紫色用于辨认当前片段。界面把文字、时间和决定放在一起，让用户逐句阅读、试听与修改。它的细节来自校对工作的对齐和留白，不模拟纸张纹理或机械设备。\n\n系统字体、原生复选框、数字输入、视频控件和浏览器确认框构成实际交互语言，无外部字体下载。视觉状态应始终能对应真实审核状态；示例标明虚构，导出 CSV 后仍说明尚未生成视频。",
+    "keyCharacteristics": [
+      "连续文本行与精确时间优先于装饰。",
+      "冷灰底、白色工作面、蓝色动作与紫色当前态各有职责。",
+      "通过色面和细线分层，没有阴影与无限动画。",
+      "就地反馈和可恢复操作支撑持续审核。"
+    ],
+    "rules": [
+      {
+        "name": "The State Color Rule",
+        "body": "蓝色表达操作，紫色表达当前定位；错误同时写出问题与恢复方式，不仅改变颜色。",
+        "section": "colors"
+      },
+      {
+        "name": "The Timing Rule",
+        "body": "正文保持自然系统字形；需要比较的数字启用等宽数字，不把整个审核台切换成代码编辑器字体。",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "层级依靠色面、分隔线与留白，当前态依靠选择底色或描边，不添加装饰阴影。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** 让时间、正文、保留选择和来源在同一连续行中可对照。",
+      "**Do** 沿用蓝色动作、紫色当前态和冷灰阅读环境。",
+      "**Do** 使用离线可用的系统字体，并仅对需要对齐的数字启用 tabular-nums。",
+      "**Do** 把媒体、切点和导出反馈留在对应操作旁，并在状态变化时清理旧提示。",
+      "**Do** 保留原生控件、清晰焦点、可取消替换和显式保存会话。"
+    ],
+    "donts": [
+      "**Don't** 用独立卡片网格替换候选连续行，或用阴影与装饰转移对文字和切点的注意。",
+      "**Don't** 把当前查看等同于已保留，或把先前导出等同于当前修改已经核对。",
+      "**Don't** 把示例、待关联媒体、未测试的状态或 CSV 导出表现为真实成片结果。",
+      "**Don't** 引入外部字体依赖、无限动画或未经实现验证的通用组件规则。",
+      "**Don't** 将限定修复清单的 ship 结论扩写为整个产品已经验收。"
+    ]
+  }
+}

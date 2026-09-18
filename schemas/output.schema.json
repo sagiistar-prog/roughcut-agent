@@ -25,7 +25,18 @@
               "type": "string"
             },
             "timeline": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/clip"
+              },
+              "maxItems": 1000
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/candidate"
+              },
+              "maxItems": 1000
             },
             "clip_count": {
               "type": "integer",
@@ -46,6 +57,7 @@
             "markdown",
             "csv",
             "timeline",
+            "candidates",
             "clip_count",
             "total_duration_seconds",
             "rejected_rows",
@@ -106,5 +118,118 @@
       ],
       "additionalProperties": false
     }
-  ]
+  ],
+  "$defs": {
+    "clip": {
+      "type": "object",
+      "properties": {
+        "source_file": {
+          "type": "string",
+          "maxLength": 30000
+        },
+        "transcript": {
+          "type": "string",
+          "maxLength": 30000
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 30000
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 30000
+        },
+        "risk_note": {
+          "type": "string",
+          "maxLength": 30000
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "start_time": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_time": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "order",
+        "source_file",
+        "transcript",
+        "role",
+        "reason",
+        "risk_note",
+        "start_time",
+        "end_time",
+        "duration_seconds"
+      ],
+      "additionalProperties": false
+    },
+    "candidate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "selected": {
+              "const": false
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "clip": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "reason",
+            "clip"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "selected": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "clip": {
+              "$ref": "#/$defs/clip"
+            },
+            "source_duration_seconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "selected",
+            "reason",
+            "clip",
+            "source_duration_seconds"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
 }

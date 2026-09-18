@@ -1,195 +1,36 @@
 ---
 name: roughcut-planner
-description: Create reviewable rough-cut timelines from a material index and editing preferences. Use before rendering to inspect timing, pacing and clip risks.
+description: Prepare, review and render a local talking-head rough cut. Use when users need timestamped transcription, reversible clip selection, safe cut points, or a reviewed FFmpeg export.
 ---
 
-# Video Auto Editor Skill
+# RoughCut Planner
 
-Use this skill when the user wants to run or improve the RoughCut Agent workflow for short videos, talking-head footage, transcript indexing, timeline generation, rough-cut rendering, subtitle configuration, or feedback-based editing preferences.
+Turn local speech footage into a reviewable initial selection. Run commands from the plugin repository root. Read README for platform setup, docs/review-design.md for decision boundaries, and schemas/input.schema.json for the JSON interface.
 
-## Goal
+## Choose the smallest useful entry
 
-Turn raw local talking-head or short-video footage into a reviewable rough cut through a safe, staged workflow.
+- User has no index: install requirements-asr.txt only when transcription is requested; FFmpeg/ffprobe must be available. Run stage1_transcribe_index.py on the user's explicitly selected directory inside this repository.
+- User has a CSV: run stage2_generate_timeline.py --input <CSV> --output output/<new-session>/initial/timeline_review.csv. Do not claim to have transcribed it.
+- User has structured material rows: run plugin_run.py --input <JSON> --output-dir output/<new-session>. This entry is timeline_only; it never reads media or invokes a model.
+- User wants review: start review_server.py, open loopback port 8890, import generated JSON. Source video is attached per file by the user. Review the exact input/output points and context, not merely the transcript.
+- User explicitly asks to render a reviewed plan: use stage3_render_rough_cut.py --timeline output/<session>/reviewed/timeline_review.csv --output-dir output/<session>/render --reviewed.
 
-## Safety Rules
+## What the stages actually do
 
-1. Do not delete original media.
-2. Do not upload raw media.
-3. Do not process `raw_duplicates_quarantine/` unless the user explicitly asks for an audit.
-4. Do not generate a video unless `timeline_review.csv` exists.
-5. Do not create results that cannot be reviewed.
-6. Keep intermediate files and reports for every stage.
-7. Do not write local absolute paths or private data into committed files.
+Transcription uses faster-whisper, CPU int8 by default. First model acquisition needs network; use --local-files-only with cached models for offline operation. Preserve original transcript, word timings, language, avg_logprob and no_speech_prob. These are recognition observations, never aesthetic or semantic-quality scores. Review missing/no-speech/error source statuses before continuing.
 
-## Stage 1: Material Deduplication
+Selection preserves source input order. It does not invent roles, quality scores or topic relevance. Complete ASR segments remain intact even if longer than preferred, with a risk note. ASR boundaries are not guaranteed sentence boundaries. Duration budget, clip-count limits, flagged duplicates and overlapping source ranges produce explicit exclusions; valid excluded candidates remain recoverable in the review UI. Padding does not consume neighboring transcript intervals.
 
-Run:
+Review supports keep/remove, restore, move, exact input/output points, local segment playback, undo, session JSON and timeline CSV export. Changes clear review acknowledgement. Saving a session does not persist media or autoplay anything.
 
-```bash
-python scripts/dedupe_raw_videos.py --raw-dir raw --output output/dedupe_report.csv
-```
+Rendering validates ranges and real source duration, sorts contiguous order, normalizes dimensions/frame rate/audio, preserves originals and refuses overwriting old artifacts. The --reviewed flag is an acknowledgement, not proof that a human listened. Never claim it is proof.
 
-This computes file hashes and writes a dedupe report. By default it does not move or delete anything.
+## Protect the user's material
 
-Only use quarantine mode when the user clearly wants duplicates isolated:
+Never delete, upload or silently move source media. Do not read quarantine. Never generate a video without timeline_review.csv. Missing dependencies must produce an actionable setup step, not fake output. Never insert placeholder transcript segments or claim a model evaluated unmeasured properties. Record uncertainties in risk_note and preserve intermediate artifacts under output/. Only use source files the user selected; no broad user-directory scan.
 
-```bash
-python scripts/dedupe_raw_videos.py --raw-dir raw --output output/dedupe_report.csv --quarantine-duplicates
-```
+Optional deduplication is report-only by default. Moving duplicates requires the user's explicit instruction. Feedback updates explicit preferences; it is not model learning.
 
-## Stage 2: Speech Transcription
+## Verify before handoff
 
-Run:
-
-```bash
-python scripts/stage1_transcribe_index.py --raw-dir raw --output output/material_index.csv
-```
-
-The script may use a local ASR dependency such as `faster-whisper` when installed. If ASR is unavailable, it should still produce a reviewable index and mark uncertainty in `risk_note`.
-
-## Stage 3: Material Indexing
-
-The output `material_index.csv` should include source file, segment start/end, transcript, subtitle fields, quality indicators, and risk notes.
-
-The index is the main bridge between AI understanding and human review.
-
-## Stage 4: Timeline Generation
-
-Run:
-
-```bash
-python scripts/stage2_generate_timeline.py --material-index output/material_index.csv --output output/timeline_review.csv
-```
-
-The generator reads:
-
-- `configs/editing_rules.yaml`
-- `configs/user_preferences.yaml`
-- `material_index.csv`
-
-It outputs a reviewable timeline with:
-
-- `order`
-- `source_file`
-- `start_time`
-- `end_time`
-- `duration_seconds`
-- `transcript`
-- `role`
-- `reason`
-- `risk_note`
-
-## Stage 5: Rough Cut Rendering
-
-Run:
-
-```bash
-python scripts/stage3_render_rough_cut.py --timeline output/timeline_review.csv --output-dir output
-```
-
-This uses FFmpeg to cut selected segments and concatenate them into `final_rough_cut.mp4`. It must not modify original media.
-
-## Stage 6: User Feedback Learning
-
-Run:
-
-```bash
-python scripts/apply_user_feedback.py --feedback output/feedback.csv
-```
-
-For demo data:
-
-```bash
-python scripts/apply_user_feedback.py --feedback examples/sample_feedback.csv
-```
-
-This does not train a model. It summarizes feedback into `configs/user_preferences.yaml`, so future timeline generation can reflect user preferences.
-
-## Editing Principles
-
-These principles must stay aligned with `configs/editing_rules.yaml`.
-
-```yaml
-editing_principles:
-  rhythm:
-    description: "剪辑要有节奏，不要机械拼接。"
-    rules:
-      - "避免把两句话硬贴在一起。"
-      - "相邻片段之间如果语气变化大，需要保留呼吸空间。"
-      - "优先选择表达完整、起承转合清楚的片段。"
-
-  breathing_room:
-    description: "剪切点要给人声留气口。"
-    rules:
-      - "裁切起点尽量不要正好卡在人声开始处。"
-      - "默认把 start_time 向前延伸 0.4 到 0.6 秒。"
-      - "如果前方有杂音或其他人声，则不强行前延。"
-      - "裁切终点默认向后延伸 0.2 到 0.4 秒，避免句尾被切断。"
-
-  continuity:
-    description: "保证语义连续。"
-    rules:
-      - "不要把两个语义不连续的句子直接拼接。"
-      - "如果片段之间缺少承接，需要在 risk_note 中标记。"
-      - "优先保持同一主题片段内部连续。"
-
-  quality:
-    description: "保证基础可看性。"
-    rules:
-      - "跳过明显空白、跑题、重复、音量过低、画面严重晃动的片段。"
-      - "识别文字不确定时不要强行判断，要标记人工复核。"
-```
-
-Operational rules:
-
-- Preserve rhythm and breath.
-- Do not hard-cut two unrelated sentences together.
-- Avoid cutting exactly at speech onset.
-- Extend `start_time` by about 0.5 seconds when safe.
-- Extend `end_time` by about 0.3 seconds when safe.
-- Do not force pre-roll when there is noise, overlapping speech, or unrelated content before the segment.
-- Write `risk_note` for uncertain recognition, semantic jumps, or unsafe cut points.
-
-## Preference Memory Layer
-
-RoughCut Agent does not train a large model. It keeps a lightweight preference memory in `configs/user_preferences.yaml`:
-
-```yaml
-user_preferences:
-  pacing:
-    preferred_total_duration_seconds: 150
-    max_single_clip_seconds: 18
-    prefer_shorter_intro: true
-  cut_padding:
-    start_padding_seconds: 0.5
-    end_padding_seconds: 0.3
-  content_style:
-    prefer:
-      - "观点明确"
-      - "信息密度高"
-      - "表达完整"
-      - "语气自然"
-    avoid:
-      - "重复铺垫"
-      - "突然切入人声"
-      - "句尾被切断"
-      - "语义跳跃"
-  learned_from_feedback:
-    - date: "2026-05-14"
-      feedback: "不要把两句话贴太紧，开头要留一点气口。"
-      applied_rule: "所有裁切起点默认向前延伸 0.5 秒，除非前方有噪声。"
-```
-
-When applying feedback, append a new memory item instead of replacing older learning.
-
-## Versioned plugin interface
-
-Use the repository root as the working directory. For an installed plugin, resolve the root as two directories above this SKILL.md; never assume the user's project contains the bundled scripts.
-
-1. Read `schemas/input.schema.json` before constructing input. Use `examples/plugin-input.json` for an offline demonstration.
-2. Install `requirements-plugin.txt` into the user's chosen Python environment when needed.
-3. Run `python scripts/plugin_run.py --input examples/plugin-input.json` from the plugin root. For user text, pass a JSON object through stdin; do not interpolate it into a shell command.
-4. Parse stdout as one JSON object; exit 0 means success, exit 2 means an input/output/dependency error. Show the error and preserve the input rather than retrying indefinitely.
-5. Present the Markdown result and material warnings. When the user asks to save artifacts, add `--output-dir output/<new-run-name>`. This creates files; an existing directory is never overwritten.
-
-The plugin does not grant permission to read unrelated files, publish content, run rendering or access accounts. The original CLI remains available. See `docs/plugin.md` for the capability boundary and the structured error contract.
+Check selected count, excluded reasons, duration, source preservation and actual output streams. A successful JSON schema check is not an acceptable-video judgment. Report model/setup prerequisites and any failed sources. Use the original synthetic fixture generator and tests for technical regression, not private footage or invented business results.

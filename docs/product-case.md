@@ -18,11 +18,11 @@
 
 ## 产品定义与技术分工
 
-宿主Agent分析语义与片段角色，确定性脚本约束时间、预算与素材边界。
+faster-whisper 提供本地转写、词时间戳和识别信号；脚本提供时间、预算与素材边界约束；用户在审核台判断语义、顺序与切点。当前不自动分析片段角色和审美。
 
 关键取舍：先交时间线再渲染；非法时间段排除；用户要求更紧凑必须同步单片上限。最重要的失败模式：文字转录无法识别所有画面与语气信息；脚本生成并不代表剪辑质量获认可。
 
-界面/交互入口：[examples/plugin-input.json](../examples/plugin-input.json)。实现入口：[scripts/stage2_generate_timeline.py](../scripts/stage2_generate_timeline.py)。
+界面入口：[web/index.html](../web/index.html)，使用 review_server.py 打开。实现入口：[scripts/stage2_generate_timeline.py](../scripts/stage2_generate_timeline.py)。
 
 ## 指标定义
 
@@ -44,7 +44,7 @@
 ## 迭代顺序
 
 1. 当前版本：建立明确输入/输出、失败恢复、示例、测试和可审阅文档。
-2. 下一版本：引入真实授权素材的逐段标注和时长评估，再接入ASR/镜头质量模型。
+2. 0.3 已接入本地 ASR 和浏览器审核，使用自行生成的媒体做技术验收。下一阶段需真实授权素材逐段标注，测量试听纠错成本，再决定是否增加语义推荐。
 3. 扩展条件：只有核心任务通过且护栏没有恶化，再扩展自动化、数据源或模型。
 
 ## 面试时可以展示

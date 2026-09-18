@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-18",
+  "scope": "Technical acceptance with original synthetic media; no real-user outcomes",
+  "python_tests_passed": 20,
+  "actual_ffmpeg_test": "mixed dimensions/fps, silence synthesis, physical CSV reorder, rendered color order, source preservation, overwrite refusal",
+  "asr": {
+    "scope": "Two original synthetic English TTS fixtures, not real-world ASR accuracy",
+    "engine": "faster-whisper",
+    "engine_version": "1.2.1",
+    "model": "tiny.en",
+    "device": "cpu",
+    "compute_type": "int8",
+    "sources": [
+      {
+        "source": "speech1.mp4",
+        "segments": 2,
+        "source_sha256": "f3a0e67fa4d1269b2f2c9b4197bd602e9feafe1ebdb56e88fb86bf44274ba07a",
+        "source_unchanged": true,
+        "synthetic_transcript": "I used to watch every recording twice, then write the start and end times on paper. It took too long to prepare a first cut.",
+        "word_error_rate": 0.0
+      },
+      {
+        "source": "speech2.mp4",
+        "segments": 2,
+        "source_sha256": "5357341d619a49a231551ea5b6e54ea06635068caf41c0d353f1847eaccc3221",
+        "source_unchanged": true,
+        "synthetic_transcript": "Now I can read the transcript, listen to the selected clip, and change the cut before exporting. The original recording stays unchanged.",
+        "word_error_rate": 0.0
+      }
+    ]
+  },
+  "browser": {
+    "widths": [
+      1440,
+      390
+    ],
+    "engine": "Chrome",
+    "axe_violations": 0,
+    "page_errors": 0,
+    "overflow": false,
+    "flows": [
+      "import",
+      "keep/remove/restore",
+      "reorder",
+      "undo",
+      "trim",
+      "session recovery",
+      "invalid input preserves draft",
+      "empty selection",
+      "CSV export",
+      "real source playback",
+      "cancel draft replacement",
+      "keyboard focus",
+      "local errors"
+    ]
+  },
+  "web_to_render": {
+    "actual_media_playback": true,
+    "clip_count": 4,
+    "expected_seconds": 21.07,
+    "actual_seconds": 21.121,
+    "sources_unchanged": true,
+    "final_sha256": "67896f76b59158e3068e63089210847c9cb957d1a9eaf11060a8ea167ca93647",
+    "normalization": {
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "audio_hz": 48000,
+      "audio_channels": 2
+    }
+  },
+  "not_validated": [
+    "real editor value",
+    "natural speech or Chinese ASR accuracy",
+    "all plugin hosts",
+    "editing aesthetics"
+  ]
+}

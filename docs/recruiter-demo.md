@@ -1,38 +1,28 @@
-# Recruiter Demo: Safe Timeline Generation
+# 不使用私人素材的演示
 
-This demo shows how to inspect RoughCut Agent's timeline generation logic without using any real video assets.
-
-## What This Demo Does
-
-- Reads only the desensitized sample index in `examples/sample_material_index.csv`.
-- Reads the public editing rules in `configs/editing_rules.yaml`.
-- Reads the lightweight preference memory in `configs/user_preferences.yaml`.
-- Generates a reviewable timeline CSV at `examples/generated_timeline_review.csv`.
-
-## What This Demo Does Not Do
-
-- It does not read `raw/`.
-- It does not read `work/`, `output/`, `.venv/`, or `raw_duplicates_quarantine/`.
-- It does not render video.
-- It does not generate `final_rough_cut.mp4`.
-- It does not require real private media files.
-
-## Run the Safe Demo
+安装 requirements-plugin.txt 后运行：
 
 ```bash
-python scripts/stage2_generate_timeline.py --input examples/sample_material_index.csv --output examples/generated_timeline_review.csv --rules configs/editing_rules.yaml --preferences configs/user_preferences.yaml --dry-run
+python scripts/review_server.py
 ```
 
-## What to Review
+打开本地 8890 端口，点击“打开示例”，选择/恢复片段、调整顺序和切点，尝试撤销与保存会话。示例仅为虚构索引，没有视频；不要声称试听过它。
 
-Open `examples/generated_timeline_review.csv` and check:
+命令行也可查看规划结果：
 
-- selected clip order
-- adjusted `start_time` and `end_time`
-- `duration_seconds`
-- transcript text
-- clip role
-- selection reason
-- `risk_note` for uncertain or unsafe cuts
+```bash
+python scripts/stage2_generate_timeline.py --input examples/sample_material_index.csv --dry-run
+```
 
-This is the safest way for a recruiter or interviewer to understand the Agent's decision logic without receiving real video material.
+dry-run 只打印规划与排除理由，不写文件、不读取视频。生成实体文件必须选择 output/ 中的新路径。
+
+需要复现真实媒体技术测试时，先安装 FFmpeg 和 requirements-asr.txt；Windows 使用系统 TTS，Linux 需 espeak：
+
+```bash
+python scripts/create_acceptance_media.py --directory output/demo-media
+python scripts/stage1_transcribe_index.py --raw-dir output/demo-media --output output/demo-media/material_index.csv --model tiny.en --language en
+python scripts/asr_acceptance.py --report output/demo-media/material_index.asr.json --output output/demo-media/acceptance.json
+python scripts/stage2_generate_timeline.py --input output/demo-media/material_index.csv --output output/demo-media/initial/timeline_review.csv
+```
+
+导入 JSON 到审核台后，关联刚生成的视频、试听和调整，再按 README 导出和渲染。生成器先写 timeline_review.csv，再生成自己创作的测试视频；不使用、扫描或复制私人媒体。

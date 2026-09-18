@@ -1,191 +1,64 @@
 # RoughCut Review
 
-[本轮技术验收](docs/technical-audit-2026-09-18.md)
+本地口播初剪工具：把视频转成带时间的文字，试听并选择片段，调整顺序和切点，再输出可以继续精剪的视频。原始素材保持不变。
 
-[产品案例与指标](docs/product-case.md) | [能力证据](docs/capability-evidence.json) | [验收与边界](docs/validation.md)
+![审核台](assets/review-desktop.png)
 
-## 面试官 30 秒版
+## 先试审核台
 
-从素材索引生成可人工复核的粗剪时间线。时间线先于渲染，风险说明先于自动执行。非法时间码不进入剪辑，反馈必须实际影响下一次片段长度。
-
-当前可验证能力：**timeline_only**。仅依据输入索引和规则排序，不读取媒体、不运行 ASR、不渲染视频。 质量与语义分数来自输入，不代表本次进行了模型评估。
-
-[插件使用与产品取舍](docs/plugin.md) · [输入示例](examples/plugin-input.json) · [输入契约](schemas/input.schema.json) · [维护记录](CHANGELOG.md)
+需要 Python 3.11。无需 API 密钥、数据库或 Node 运行环境。
 
 ```bash
 python -m pip install -r requirements-plugin.txt
-python scripts/plugin_run.py --input examples/plugin-input.json
+python scripts/review_server.py
 ```
 
-## 原有工作流与详细说明
+打开 http://127.0.0.1:8890，点击“打开示例”。示例是虚构索引，不附带视频。可以选择、恢复、移动片段，修改切点，撤销和保存审核会话。试听自己的素材需要点击“关联源视频”。文件只在当前浏览器读取，不上传。
 
+## 用自己的口播素材
 
-## 面试官 30 秒版
+需安装 FFmpeg，确保 `ffmpeg -version` 和 `ffprobe -version` 可运行。把有权处理的视频放进本仓库 `raw/`，不提交这些文件。建议使用 H.264/AAC MP4 便于浏览器试听。
 
-RoughCut Agent 是一个把 AI 能力产品化为短视频粗剪流程的作品集项目。它覆盖素材去重、语音识别、素材索引、内容排序、时间线生成、FFmpeg 粗剪合成、字幕配置和用户反馈偏好记忆；仓库只保留代码、文档、配置模板和脱敏示例，不上传真实素材。该流程已在真实本地素材上跑通，作品集版本用于展示产品思路、工程实现和迭代空间。
-
-## Safe Demo Without Real Video Assets
-
-面试官可以不用真实视频查看 timeline 生成逻辑：
+1. 安装本地 ASR 并转写。首次运行需联网下载模型；媒体本身不上传。默认 CPU int8，中文 small 模型：
 
 ```bash
-python scripts/stage2_generate_timeline.py --input examples/sample_material_index.csv --output examples/generated_timeline_review.csv --rules configs/editing_rules.yaml --preferences configs/user_preferences.yaml --dry-run
+python -m pip install -r requirements-asr.txt
+python scripts/stage1_transcribe_index.py --raw-dir raw --output output/session-01/material_index.csv --model small --language zh
 ```
 
-这个 Demo 只读取脱敏 `examples` 数据，不读取真实素材，不渲染视频，也不会生成 final mp4。
+生成 CSV 和 `material_index.asr.json`，保留原始转写、词时间戳、识别信号、模型版本和源文件哈希。没有语音的文件记为 no_speech；识别失败记为 error 并以非零状态退出。不用占位片段冒充成功。已有模型可加 `--local-files-only` 离线运行。
 
-## 一键作品集审查
-
-上传或发送给面试官前，可以运行：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\portfolio_audit.ps1
-```
-
-该脚本只检查 Git 已跟踪文件，用于确认 GitHub 公开性、本地状态、隐私字段、真实素材和大文件风险。
-
-RoughCut Agent 是一个面向短视频和口播素材的 AI 粗剪工作流 Agent。它把“素材去重、语音识别、素材索引、内容排序、时间线生成、FFmpeg 粗剪合成、字幕配置、用户反馈学习”串成一个可复用流程，而不是停留在单次调用 AI 的 demo。
-
-这个仓库是作品集版本：不包含真实视频素材、不包含隐私数据、不包含本地绝对路径，只展示代码、文档、配置模板和脱敏示例。
-
-![RoughCut Agent workflow](assets/workflow_diagram.png)
-
-## Repository Structure
-
-```text
-roughcut-agent
-├── README.md
-├── AGENTS.md
-├── .gitignore
-├── requirements.txt
-├── LICENSE
-├── docs
-│   ├── case-study.md
-│   ├── workflow.md
-│   ├── editing-principles.md
-│   └── interview-summary.md
-├── skills
-│   └── roughcut-planner
-│       └── SKILL.md
-├── scripts
-│   ├── dedupe_raw_videos.py
-│   ├── stage1_transcribe_index.py
-│   ├── stage2_generate_timeline.py
-│   ├── stage3_render_rough_cut.py
-│   └── apply_user_feedback.py
-├── configs
-│   ├── editing_rules.yaml
-│   └── user_preferences.yaml
-├── examples
-│   ├── sample_material_index.csv
-│   ├── sample_timeline_review.csv
-│   ├── sample_edit_report.md
-│   └── sample_feedback.csv
-└── assets
-    └── workflow_diagram.png
-```
-
-## 我解决了什么问题
-
-短视频和口播素材的粗剪阶段通常很耗时：
-
-- 同一段素材可能重复导入，需要先去重。
-- 长视频需要转写成可搜索、可排序的素材行。
-- 剪辑不是简单拼接，需要保留气口、节奏和语义连续。
-- 口播素材里常有重复表达、停顿、跑题和识别错别字。
-- 每个人的剪辑偏好不同，需要把反馈沉淀成下次可复用的规则。
-
-RoughCut Agent 的目标是把这些重复劳动变成一个稳定、可复查、可迭代的工作流。
-
-## 为什么有产品价值
-
-它对应的是创作者、内容运营、短视频团队在日常生产里的高频痛点：大量口播素材进入剪辑之前，需要先完成“可被理解和筛选”的结构化处理。
-
-这个 Agent 不只是帮用户生成一个结果，而是把剪辑流程拆成多个可检查阶段。每一步都有中间文件、报告和人工复核点，因此适合真实生产场景：
-
-- 降低素材整理和初剪时间。
-- 把剪辑经验结构化成规则。
-- 支持人机协作，不把不确定判断伪装成确定结果。
-- 能通过反馈持续调整排序、保留片段、气口和内容风格。
-
-## 输入和输出
-
-输入：
-
-- `raw/` 中的本地视频素材，仓库不会上传这个目录。
-- `configs/editing_rules.yaml` 中的剪辑规则。
-- `configs/user_preferences.yaml` 中的用户偏好记忆。
-- 可选的 `output/feedback.csv` 或 `examples/sample_feedback.csv` 用户反馈表。
-
-输出：
-
-- `output/dedupe_report.csv`：去重报告。
-- `output/material_index.csv`：转写后的素材索引。
-- `output/timeline_review.csv`：可复查的粗剪时间线。
-- `output/final_rough_cut.mp4`：FFmpeg 合成的粗剪视频。
-- `output/edit_report.md`：粗剪报告。
-
-`output/` 目录默认不上传 GitHub。
-
-## 工作流阶段
-
-1. 素材去重：计算视频哈希，识别重复素材，只输出报告或按明确参数隔离重复项，不硬删除原始素材。
-2. 语音转写：通过可插拔 ASR 生成口播文本，并支持字幕字段。
-3. 素材索引：把素材拆成带时间码、文本、质量标记和风险提示的结构化行。
-4. 时间线生成：根据剪辑规则、内容密度、语义连续性和用户偏好生成 `timeline_review.csv`。
-5. 粗剪合成：读取已确认的时间线，用 FFmpeg 裁切并拼接成粗剪版。
-6. 用户反馈学习：读取反馈表，把偏好沉淀到 `configs/user_preferences.yaml`，供下一次排序和剪切点调整使用。
-
-## 不是单纯调用 AI
-
-这个项目的重点不是“调用一个模型生成剪辑建议”，而是把 AI 能力产品化成可复用流程：
-
-- 用配置文件表达剪辑原则。
-- 用 CSV 作为人机协作的复核界面。
-- 用风险字段记录不确定判断。
-- 用 FFmpeg 做可执行的粗剪合成。
-- 用反馈文件保存用户偏好，让下一次生成更接近用户风格。
-
-AI 负责理解和结构化，工程流程负责可复查、可执行和可迭代。
-
-## 当前验证结果
-
-该流程已经在真实本地素材上跑通，作品集仓库不展示真实素材，只展示脱敏样例和流程设计。
-
-本地验证结果：
-
-- 成功完成 12 个去重视频。
-- 生成 43 条时间码素材行。
-- 生成 13 个粗剪片段。
-- 合成 179 秒最终粗剪版。
-
-## 快速开始
-
-安装依赖：
+2. 生成初选：
 
 ```bash
-pip install -r requirements.txt
+python scripts/stage2_generate_timeline.py --input output/session-01/material_index.csv --output output/session-01/initial/timeline_review.csv
 ```
 
-生成时间线示例：
+同时生成 `timeline_review.json`。默认保留输入顺序、限制总时长和片数，不按虚构音质分排名、不强行截断长句。未选候选及原因仍保留。
+
+3. 在审核台导入这个 JSON，关联对应源视频，试听和调整。可保存会话下次继续。核对后导出 `timeline_review.csv`，将下载文件放到新建的 `output/session-01/reviewed/`。浏览器不会替你写入仓库，也不会直接启动 FFmpeg。
+
+4. 明确确认已审核后渲染：
 
 ```bash
-python scripts/stage2_generate_timeline.py --material-index examples/sample_material_index.csv --output output/timeline_review.csv
+python scripts/stage3_render_rough_cut.py --timeline output/session-01/reviewed/timeline_review.csv --output-dir output/session-01/render --reviewed
 ```
 
-应用反馈学习示例：
+结果包括 MP4、中间片段、JSON 验收数据和 Markdown 报告。按 CSV 的 order 排序，统一为 1280×720、30fps、48kHz 双声道；竖屏加留白，不裁掉画面，无音轨素材补静音。已有结果不会覆盖。命令应在仓库根目录运行。
+
+## 插件与维护
+
+`.codex-plugin/plugin.json` 提供插件元信息，`skills/roughcut-planner/SKILL.md` 负责逐步调用本地工作流。宿主仍决定是否运行命令和处理用户选择的文件。JSON 接口只规划，不隐式转写或渲染：
 
 ```bash
-python scripts/apply_user_feedback.py --feedback examples/sample_feedback.csv
+python scripts/plugin_run.py --input examples/plugin-input.json --output-dir output/plugin-01
+python -m unittest discover -s tests -v
 ```
 
-真实素材粗剪需要本地安装 FFmpeg，并把视频放到不会上传的 `raw/` 目录中。
+前端回归需要 Node 20+：`npm ci`、`npx playwright install chromium`、`npm run test:browser`。使用本机 Chrome 可设置 `BROWSER_CHANNEL=chrome`。
 
-## 面试官可以看到什么
+[产品判断](docs/product-case.md) | [设计与交互](docs/review-design.md) | [技术验收](docs/validation.md) | [开源选择](docs/open-source.md) | [更新记录](CHANGELOG.md)
 
-通过这个 GitHub 项目，面试官可以看到：
+## 能力边界
 
-- 我如何把 AI 能力拆解成可落地的产品工作流。
-- 我如何处理真实生产里的素材安全、复核和不确定性。
-- 我如何把用户反馈转化为配置和偏好记忆。
-- 我如何用轻量脚本、配置文件和文档构建可迭代的 Agent 项目。
+ASR 提供文字和时间信号，不等于音质、语义或剪辑审美判断；片段边界必须试听。当前不自动翻译或烧录字幕，不做画面质量评分、多人说话分离或自动叙事创作。反馈只是显式偏好变更，没有训练模型。技术验收采用自行生成的测试素材，没有真实剪辑者效率或业务收益结论。

@@ -1,18 +1,15 @@
-# 开源选择与贡献边界
+# 开源选择
 
-沿用原生界面或CLI，新增JSON Schema输入输出验证与插件协议。没有为了获得开源标签引入无用途的前端依赖。
+选择依据是任务匹配、可测试性、许可证和维护成本。未以 star 数量替代质量判断。2026-09-18 查阅官方仓库和接口。
 
-| 项目 | 质量判断与用途 | 采用状态 |
+| 上游 | 采用方式 | 理由与边界 |
 |---|---|---|
-| [Radix Primitives](https://github.com/radix-ui/primitives) | MIT，明确可访问组件语义；Dialog适合核对出处、关闭后继续阅读 | CareGuide实际使用，其他项目按需 |
-| [Motion](https://github.com/motiondivision/motion) | MIT，成熟React动效；状态和reduced motion优先于装饰 | Where-to-live已有依赖 |
-| [Sonner](https://github.com/emilkowalski/sonner) | MIT，适合短反馈；本轮原位状态已足够，不重复引入 | 参考，未接入 |
-| [AI Elements](https://github.com/vercel/ai-elements) | Apache-2.0，任务与引用组件值得参考；不强行把证据工具改成聊天 | 参考，未复制代码 |
-| [FastEmbed](https://github.com/qdrant/fastembed) | Apache-2.0，ONNX本地CPU推理，明确模型列表 | CareGuide与EU Law实际使用 |
-| [FlagEmbedding](https://github.com/FlagOpen/FlagEmbedding) | BGE模型MIT，区分语言、维数与查询指令 | CareGuide中文，EU Law英文 |
-| [Haystack](https://github.com/deepset-ai/haystack) | Apache-2.0，清洗、检索、融合阶段边界清楚 | 架构参考，未声明整体框架接入 |
-| [pgvector](https://github.com/pgvector/pgvector) | PostgreSQL License，复用已有数据库运维能力 | 可选持久化适配；本轮未连接数据库 |
+| [SYSTRAN/faster-whisper](https://github.com/SYSTRAN/faster-whisper) | 实际依赖 1.2.1，MIT | CTranslate2 本地 CPU int8、VAD、词时间戳；每批复用模型。ASR 信号不当作剪辑质量分。 |
+| [FFmpeg](https://ffmpeg.org/ffmpeg-filters.html#concat) | 调用用户安装的 CLI | 拼接前显式统一分辨率、帧率、像素格式和音轨。未分发二进制；FFmpeg 构建及 libx264 许可证需由分发者按实际构建遵守。 |
+| [Playwright](https://github.com/microsoft/playwright) | 测试依赖，Apache-2.0 | 真实浏览器播放、输入恢复、下载、手机宽度回归。 |
+| [axe-core](https://github.com/dequelabs/axe-core) | 测试依赖，MPL-2.0 | 自动无障碍检查；不等于完整认证。 |
+| [jsonschema](https://github.com/python-jsonschema/jsonschema) | 实际依赖，MIT | 宿主输入输出校验；不替代语义审核。 |
 
-依赖的实际版本以锁文件/requirements为准。选择依据是维护方式、许可证、接口清晰度、可测试性、部署成本与任务匹配，不仅是star数量。更新依赖先在独立分支运行构建、契约和关键任务测试，再升级。
+审核台使用原生 video、File API 与本地静态服务，未复制其他编辑器 UI。保留/撤销借鉴非破坏性剪辑的通用交互，避免为少量操作引入完整剪辑器框架。Impeccable 指导字幕校对表式的信息层级、蓝紫灰与可逆状态设计。
 
-原始参考图用于理解留白、蓝紫灰、光影和状态反馈，没有复制其图片、Logo或商业素材。Impeccable用于审查布局、交互与可访问性；技术注释与产品取舍留在文档中，产品界面不堆砌说明。
+上游代码、模型能力和本项目贡献分别标明。本项目贡献是用户任务定义、阶段边界、审核体验、规则约束、集成与可复现验收；不称 Whisper 为自研模型。完整模型文件、源媒体和运行输出不提交。

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>RoughCut 审核台</title><link rel="stylesheet" href="/review.css"><script src="/review.js" defer></script></head>
+<body>
+<!-- THESIS: Review speech through reversible, exact clip decisions.
+OWN-WORLD: Gray paper, blue actions, violet selection, aligned timing and plain transcript rows.
+STORY: Import, listen, select, adjust, review, export.
+FIRST VIEWPORT: Heading and import above transcript/preview workspace; mobile follows reading order.
+FORM: Subtitle proofing table, candidate 6, seed ed067edc. User-authorized direction, code-led.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance -->
+<header><a class="brand" href="/">RoughCut <span>审核台</span></a><span class="local">素材留在本机</span></header>
+<main>
+  <section class="intro"><div><h1>把初剪，交回你的判断。</h1><p>先听一句，再决定留下什么。</p></div><div class="tools"><button id="demo">打开示例</button><button id="import" class="primary">导入时间线</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></section>
+  <p id="status" role="status" aria-live="polite">导入生成的 JSON，或打开虚构示例体验审核。</p>
+  <section id="welcome"><div class="empty-mark" aria-hidden="true"></div><h2>每个切点，都可以改。</h2><p>试听原片段，调整入出点和顺序，再导出审核后的时间线。</p><details><summary>怎样准备自己的素材？</summary><p>按 README 运行本地转写与时间线生成，将得到的 JSON 导入这里。源视频由你选择后在浏览器本地播放。</p></details></section>
+  <section id="workspace" hidden>
+    <div class="toolbar"><h2 id="project-name">片段审核</h2><div><button id="undo" disabled>撤销</button><button id="save">保存审核会话</button></div></div>
+    <div class="editor"><section aria-label="全部候选片段"><div class="column-label"><span>候选片段</span><span>入选与否由你决定</span></div><div id="clips"></div><details id="rejected" hidden><summary>无法加入的索引行</summary><ul></ul></details></section>
+    <aside id="preview-pane" tabindex="-1" aria-label="片段试听"><button id="back" class="mobile-only">返回当前片段</button><div class="preview"><video id="video" controls playsinline preload="metadata" hidden></video><div id="media-empty"><div class="empty-mark" aria-hidden="true"></div><p>选择源视频后试听</p></div></div><p id="source-name"></p><div class="media-actions"><button id="attach">关联源视频</button><button id="play" disabled>试听片段</button><input id="media-file" type="file" accept="video/*,.mkv" hidden></div><p id="media-state" role="status">仅在当前页面读取，不上传。</p><form id="trim"><div class="time-fields"><label>入点 / 秒<input id="start" type="number" min="0" step="0.001" required></label><label>出点 / 秒<input id="end" type="number" min="0" step="0.001" required></label></div><button type="submit">应用切点</button></form><p id="trim-status" role="status"></p><p id="clip-text"></p><details><summary>选择依据与待核对项</summary><p id="reason"></p><p id="risk"></p></details></aside></div>
+    <section class="export"><div class="export-heading"><h2>已选时间线</h2><p id="total"></p></div><div id="strip" aria-label="已选片段顺序"></div><div class="export-controls"><label class="confirm"><input id="reviewed" type="checkbox">我已核对所选片段和切点</label><button id="export" class="primary" disabled>导出审核时间线</button></div><p id="export-help" role="status">导出后按 README 使用 FFmpeg 生成视频。尚未渲染。</p></section>
+  </section>
+</main><footer>先看依据，再做选择。</footer>
+</body></html>

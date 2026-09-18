@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "status": "ok",
+  "mode": "timeline_only",
+  "result": {
+    "markdown": "# Timeline review\n\nReview every cut and risk_note before rendering. No media was read or rendered.\n",
+    "csv": "order,source_file,start_time,end_time,duration_seconds,transcript,role,reason,risk_note\n1,examples/raw/demo_001.mp4,0.7,8.8,8.1,我想解决的是口播素材粗剪太耗时的问题,hook,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n2,examples/raw/demo_001.mp4,8.8,18.7,9.9,过去我需要反复打开视频听内容再手动标时间码,problem,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n3,examples/raw/demo_001.mp4,18.75,30.8,12.05,这个 Agent 会先转写素材再生成可以复查的时间线,solution,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n4,examples/raw/demo_002.mp4,1.9,12.5,10.6,真正有价值的是把 AI 能力变成稳定流程,proof,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n5,examples/raw/demo_002.mp4,12.6,20.4,7.8,这里我重复说了一遍开头所以这一段可以删除,detail,按输入素材顺序保留；未进行语义排名,repeated meaning；自动转写与句子边界需试听核对；音画质量与内容价值未测量\n6,examples/raw/demo_002.mp4,20.55,29.7,9.15,每个片段都会保留原因和风险提示方便人工复核,proof,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n7,examples/raw/demo_002.mp4,29.7,37.65,7.95,最后我可以保存审核会话，下次接着修改片段,cta,按输入素材顺序保留；未进行语义排名,自动转写与句子边界需试听核对；音画质量与内容价值未测量\n8,examples/raw/demo_002.mp4,37.8,41.9,4.1,背景里有人说话这段不适合强行前延,detail,按输入素材顺序保留；未进行语义排名,overlap speech before segment；自动转写与句子边界需试听核对；音画质量与内容价值未测量；输入标记存在噪声或重叠人声\n",
+    "timeline": [
+      {
+        "order": 1,
+        "source_file": "examples/raw/demo_001.mp4",
+        "start_time": 0.7,
+        "end_time": 8.8,
+        "duration_seconds": 8.1,
+        "transcript": "我想解决的是口播素材粗剪太耗时的问题",
+        "role": "hook",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 2,
+        "source_file": "examples/raw/demo_001.mp4",
+        "start_time": 8.8,
+        "end_time": 18.7,
+        "duration_seconds": 9.9,
+        "transcript": "过去我需要反复打开视频听内容再手动标时间码",
+        "role": "problem",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 3,
+        "source_file": "examples/raw/demo_001.mp4",
+        "start_time": 18.75,
+        "end_time": 30.8,
+        "duration_seconds": 12.05,
+        "transcript": "这个 Agent 会先转写素材再生成可以复查的时间线",
+        "role": "solution",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 4,
+        "source_file": "examples/raw/demo_002.mp4",
+        "start_time": 1.9,
+        "end_time": 12.5,
+        "duration_seconds": 10.6,
+        "transcript": "真正有价值的是把 AI 能力变成稳定流程",
+        "role": "proof",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 5,
+        "source_file": "examples/raw/demo_002.mp4",
+        "start_time": 12.6,
+        "end_time": 20.4,
+        "duration_seconds": 7.8,
+        "transcript": "这里我重复说了一遍开头所以这一段可以删除",
+        "role": "detail",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "repeated meaning；自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 6,
+        "source_file": "examples/raw/demo_002.mp4",
+        "start_time": 20.55,
+        "end_time": 29.7,
+        "duration_seconds": 9.15,
+        "transcript": "每个片段都会保留原因和风险提示方便人工复核",
+        "role": "proof",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 7,
+        "source_file": "examples/raw/demo_002.mp4",
+        "start_time": 29.7,
+        "end_time": 37.65,
+        "duration_seconds": 7.95,
+        "transcript": "最后我可以保存审核会话，下次接着修改片段",
+        "role": "cta",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+      },
+      {
+        "order": 8,
+        "source_file": "examples/raw/demo_002.mp4",
+        "start_time": 37.8,
+        "end_time": 41.9,
+        "duration_seconds": 4.1,
+        "transcript": "背景里有人说话这段不适合强行前延",
+        "role": "detail",
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "risk_note": "overlap speech before segment；自动转写与句子边界需试听核对；音画质量与内容价值未测量；输入标记存在噪声或重叠人声"
+      }
+    ],
+    "candidates": [
+      {
+        "row": 1,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 38.2,
+        "clip": {
+          "order": 1,
+          "source_file": "examples/raw/demo_001.mp4",
+          "start_time": 0.7,
+          "end_time": 8.8,
+          "duration_seconds": 8.1,
+          "transcript": "我想解决的是口播素材粗剪太耗时的问题",
+          "role": "hook",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 2,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 38.2,
+        "clip": {
+          "order": 2,
+          "source_file": "examples/raw/demo_001.mp4",
+          "start_time": 8.8,
+          "end_time": 18.7,
+          "duration_seconds": 9.9,
+          "transcript": "过去我需要反复打开视频听内容再手动标时间码",
+          "role": "problem",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 3,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 38.2,
+        "clip": {
+          "order": 3,
+          "source_file": "examples/raw/demo_001.mp4",
+          "start_time": 18.75,
+          "end_time": 30.8,
+          "duration_seconds": 12.05,
+          "transcript": "这个 Agent 会先转写素材再生成可以复查的时间线",
+          "role": "solution",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 4,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 42.7,
+        "clip": {
+          "order": 4,
+          "source_file": "examples/raw/demo_002.mp4",
+          "start_time": 1.9,
+          "end_time": 12.5,
+          "duration_seconds": 10.6,
+          "transcript": "真正有价值的是把 AI 能力变成稳定流程",
+          "role": "proof",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 5,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 42.7,
+        "clip": {
+          "order": 5,
+          "source_file": "examples/raw/demo_002.mp4",
+          "start_time": 12.6,
+          "end_time": 20.4,
+          "duration_seconds": 7.8,
+          "transcript": "这里我重复说了一遍开头所以这一段可以删除",
+          "role": "detail",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "repeated meaning；自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 6,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 42.7,
+        "clip": {
+          "order": 6,
+          "source_file": "examples/raw/demo_002.mp4",
+          "start_time": 20.55,
+          "end_time": 29.7,
+          "duration_seconds": 9.15,
+          "transcript": "每个片段都会保留原因和风险提示方便人工复核",
+          "role": "proof",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 7,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 42.7,
+        "clip": {
+          "order": 7,
+          "source_file": "examples/raw/demo_002.mp4",
+          "start_time": 29.7,
+          "end_time": 37.65,
+          "duration_seconds": 7.95,
+          "transcript": "最后我可以保存审核会话，下次接着修改片段",
+          "role": "cta",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "自动转写与句子边界需试听核对；音画质量与内容价值未测量"
+        }
+      },
+      {
+        "row": 8,
+        "selected": true,
+        "reason": "按输入素材顺序保留；未进行语义排名",
+        "source_duration_seconds": 42.7,
+        "clip": {
+          "order": 8,
+          "source_file": "examples/raw/demo_002.mp4",
+          "start_time": 37.8,
+          "end_time": 41.9,
+          "duration_seconds": 4.1,
+          "transcript": "背景里有人说话这段不适合强行前延",
+          "role": "detail",
+          "reason": "按输入素材顺序保留；未进行语义排名",
+          "risk_note": "overlap speech before segment；自动转写与句子边界需试听核对；音画质量与内容价值未测量；输入标记存在噪声或重叠人声"
+        }
+      }
+    ],
+    "clip_count": 8,
+    "total_duration_seconds": 69.65,
+    "rejected_rows": [],
+    "requires_human_review": true
+  },
+  "warnings": [
+    "按素材输入顺序初选，不运行 ASR 或渲染，不进行语义排名。",
+    "质量与语义分数不参与选择，未经测量的指标保持未知。"
+  ]
+}

@@ -1,4 +1,4 @@
-version: 1
+version: 2
 project: RoughCut Agent
 
 editing_principles:
@@ -31,20 +31,15 @@ editing_principles:
       - "识别文字不确定时不要强行判断，要标记人工复核。"
 
 selection:
-  prefer:
-    - information_dense
-    - complete_expression
-    - clear_audio
-    - fewer_pauses
+  ordering: source_order
+  unmeasured_scores: unknown
+  preserve_complete_segment: true
+  overlapping_source_policy: keep_first_report_rest
+  limit_padding_to_neighbor_boundaries: true
+  human_review_required_for:
     - semantic_continuity
-  remove:
-    - repeated_expression
-    - duplicate_meaning
-    - silence
-    - off_topic
-    - poor_audio_quality
-  minimum_quality_score: 0.62
-  minimum_semantic_score: 0.55
+    - audio_visual_quality
+    - relevance
 
 pacing:
   target_total_seconds: 180
@@ -52,13 +47,7 @@ pacing:
   preferred_clip_seconds:
     min: 4
     max: 22
-  role_order:
-    - hook
-    - problem
-    - solution
-    - proof
-    - detail
-    - cta
+  preferred_length_is_soft_review_threshold: true
 
 cut_padding:
   start_pre_roll_seconds: 0.5
@@ -81,8 +70,8 @@ semantic_rules:
   avoid_hard_join_without_transition: true
 
 subtitles:
-  enabled: true
-  bilingual: true
+  enabled: false
+  bilingual: false
   primary_language: zh
   secondary_language: en
   normalize_recognition_typos: true
@@ -102,6 +91,9 @@ safety:
 # Tighter-pacing feedback updates both clip maximum fields consistently.
 
 render_validation:
+  require_explicit_review_acknowledgement: true
+  normalize_video: "1280x720, 30 fps, yuv420p, letterbox"
+  normalize_audio: "48000 Hz stereo; silent source receives silence"
   reject_partial_render: true
   reject_existing_outputs: true
   verify_source_duration_with_ffprobe: true

@@ -1,0 +1,2 @@
+-r requirements-plugin.txt
+faster-whisper==1.2.1

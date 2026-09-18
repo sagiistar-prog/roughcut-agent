@@ -11,20 +11,20 @@ sys.path.insert(0, str(ROOT / "scripts"))
 MAX_BYTES = 1_000_000
 
 def execute(data: dict) -> dict:
-    from stage2_generate_timeline import generate_timeline, invalid_time_reason, load_yaml, TIMELINE_FIELDS
+    from stage2_generate_timeline import plan_timeline, load_yaml, TIMELINE_FIELDS
     import csv, io
     rows = data["material_rows"]
-    rejected = [{"row": index + 1, "reason": reason} for index, row in enumerate(rows) if (reason := invalid_time_reason(row))]
-    timeline = generate_timeline(rows, load_yaml(ROOT / "configs/editing_rules.yaml"), load_yaml(ROOT / "configs/user_preferences.yaml"))
-    stream = io.StringIO(); writer = csv.DictWriter(stream, fieldnames=TIMELINE_FIELDS); writer.writeheader(); writer.writerows(timeline)
-    return {"markdown": "# Timeline review\n\nReview every cut and risk_note before rendering. No media was read or rendered.\n", "csv": stream.getvalue(), "timeline": timeline, "clip_count": len(timeline), "total_duration_seconds": round(sum(row["duration_seconds"] for row in timeline), 3), "rejected_rows": rejected, "requires_human_review": True}
+    timeline, candidates = plan_timeline(rows, load_yaml(ROOT / "configs/editing_rules.yaml"), load_yaml(ROOT / "configs/user_preferences.yaml"))
+    rejected = [{"row": item['row'], "reason": item['reason']} for item in candidates if not item['selected']]
+    stream = io.StringIO(); writer = csv.DictWriter(stream, fieldnames=TIMELINE_FIELDS, lineterminator='\n'); writer.writeheader(); writer.writerows(timeline)
+    return {"markdown": "# Timeline review\n\nReview every cut and risk_note before rendering. No media was read or rendered.\n", "csv": stream.getvalue(), "timeline": timeline, "candidates": candidates, "clip_count": len(timeline), "total_duration_seconds": round(sum(row["duration_seconds"] for row in timeline), 3), "rejected_rows": rejected, "requires_human_review": True}
 
 
 def run(data: dict) -> dict:
     from jsonschema import Draft202012Validator
     schema = json.loads((ROOT / "schemas/input.schema.json").read_text(encoding="utf-8"))
     Draft202012Validator(schema).validate(data)
-    result = {"schema_version": "1.0", "status": "ok", "mode": 'timeline_only', "result": execute(data), "warnings": ['仅依据输入索引和规则排序，不读取媒体、不运行 ASR、不渲染视频。', '质量与语义分数来自输入，不代表本次进行了模型评估。']}
+    result = {"schema_version": "1.0", "status": "ok", "mode": 'timeline_only', "result": execute(data), "warnings": ['按素材输入顺序初选，不运行 ASR 或渲染，不进行语义排名。', '质量与语义分数不参与选择，未经测量的指标保持未知。']}
     Draft202012Validator(json.loads((ROOT / "schemas/output.schema.json").read_text(encoding="utf-8"))).validate(result)
     return result
 
@@ -47,7 +47,7 @@ def main() -> int:
             destination.mkdir(parents=True, exist_ok=False)
             (destination / "result.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             (destination / "result.md").write_text(payload["result"]["markdown"], encoding="utf-8")
-            if "csv" in payload["result"]: (destination / "timeline.csv").write_text(payload["result"]["csv"], encoding="utf-8")
+            if "csv" in payload["result"]: (destination / "timeline_review.csv").write_text(payload["result"]["csv"], encoding="utf-8")
         code = 0
     except ImportError:
         payload = {"schema_version":"1.0", "status":"error", "error":{"code":"DEPENDENCY_MISSING", "message":"Install requirements-plugin.txt before running the plugin."}}

@@ -120,7 +120,7 @@ foreach ($file in $trackedFiles) {
 }
 
 Write-Section "Sensitive Text Scan"
-$textExtensions = @(".md", ".txt", ".csv", ".yaml", ".yml", ".py", ".ps1", ".json", ".toml", ".ini", ".gitignore", "")
+$textExtensions = @(".md", ".txt", ".csv", ".yaml", ".yml", ".py", ".ps1", ".json", ".toml", ".ini", ".gitignore", ".js", ".mjs", ".html", ".css", "")
 $sensitivePatterns = @(
     @{ Label = "Windows user directory marker"; Pattern = ("C:" + "\" + "Users"); Mode = "literal" },
     @{ Label = "local username marker"; Pattern = ("Sagi" + "istariam"); Mode = "literal" },
