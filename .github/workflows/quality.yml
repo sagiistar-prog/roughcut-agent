@@ -31,7 +31,10 @@ jobs:
       - run: python scripts/create_acceptance_media.py --directory output/ci-asr
       - run: python scripts/stage1_transcribe_index.py --raw-dir output/ci-asr --output output/ci-asr/material_index.csv --model tiny.en --language en
       - run: python scripts/asr_acceptance.py --report output/ci-asr/material_index.asr.json --output output/ci-asr/acceptance.json
+      - run: python scripts/caption_acceptance.py --asr output/ci-asr/material_index.asr.json --output-dir output/ci-captions
       - uses: actions/upload-artifact@v4
         with:
           name: synthetic-asr-report
-          path: output/ci-asr/acceptance.json
+          path: |
+            output/ci-asr/acceptance.json
+            output/ci-captions/acceptance.json

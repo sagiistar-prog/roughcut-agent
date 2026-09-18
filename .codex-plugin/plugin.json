@@ -1,6 +1,6 @@
 {
   "name": "roughcut-agent",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "从素材索引生成可人工复核的粗剪时间线",
   "author": {
     "name": "Oscar Qi",
@@ -12,7 +12,7 @@
   "interface": {
     "displayName": "RoughCut Review",
     "shortDescription": "从素材索引生成可人工复核的粗剪时间线",
-    "longDescription": "本地语音转写、完整片段初选、可试听和撤销的审核台，以及明确确认后的 FFmpeg 导出。JSON 规划接口不隐式读取媒体或调用模型。实际依赖和能力边界见 README。",
+    "longDescription": "本地语音转写、可试听和撤销的审核台、明确确认后的 FFmpeg 导出，以及随剪辑时间线重排的 SRT/VTT 字幕草稿。JSON 规划接口不隐式读取媒体或调用模型。实际依赖和能力边界见 README。",
     "developerName": "Oscar Qi",
     "category": "Productivity",
     "capabilities": [

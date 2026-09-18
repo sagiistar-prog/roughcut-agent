@@ -1,0 +1,50 @@
+{
+  "scope": "Original synthetic English TTS; not real-world ASR or customer outcomes",
+  "asr": {
+    "scope": "Two original synthetic English TTS fixtures, not real-world ASR accuracy",
+    "engine": "faster-whisper",
+    "engine_version": "1.2.1",
+    "model": "tiny.en",
+    "device": "cpu",
+    "compute_type": "int8",
+    "sources": [
+      {
+        "source": "speech1.mp4",
+        "segments": 2,
+        "source_sha256": "d88eca9d1cf6ae7c8fcba273fd1de78ab2f3395bbcbb0bf42252daf963293722",
+        "source_unchanged": true,
+        "synthetic_transcript": "I used to watch every recording twice, then write the start and end times on paper. It took too long to prepare a first cut.",
+        "word_error_rate": 0.0
+      },
+      {
+        "source": "speech2.mp4",
+        "segments": 2,
+        "source_sha256": "09e13650a8a52a63c39129ad29732fe149da1d3edc48f69adc919bedb9baacc3",
+        "source_unchanged": true,
+        "synthetic_transcript": "Now I can read the transcript. Listen to the selected clip. And change the cut before exporting. The original recording stays unchanged.",
+        "word_error_rate": 0.0
+      }
+    ]
+  },
+  "caption_count": 8,
+  "risk_count": 1,
+  "source_order": [
+    "speech2.mp4",
+    "speech1.mp4"
+  ],
+  "actual_render_seconds": 18.203333,
+  "source_hashes_unchanged": true,
+  "subtitle_parsers": [
+    {
+      "format": "srt",
+      "packet_count": 8,
+      "timestamps_match": true
+    },
+    {
+      "format": "vtt",
+      "packet_count": 8,
+      "timestamps_match": true
+    }
+  ],
+  "review_status": "needs_review"
+}

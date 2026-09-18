@@ -1,0 +1,206 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "const": "needs_review"
+    },
+    "timing_basis": {
+      "const": "asr_words_and_measured_render_segments"
+    },
+    "text_basis": {
+      "const": "original_asr_words"
+    },
+    "cues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "start_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "end_ms": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_file": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "source_end": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "order",
+          "start_ms",
+          "end_ms",
+          "text",
+          "source_file",
+          "source_start",
+          "source_end"
+        ]
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "code": {
+            "enum": [
+              "missing_word_timestamps",
+              "zero_duration_word",
+              "word_crosses_cut",
+              "word_outside_rendered_duration",
+              "no_caption_words",
+              "single_word_exceeds_readability_limit"
+            ]
+          },
+          "source_start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "source_end": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cue_id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "order",
+          "code"
+        ]
+      }
+    },
+    "segment_mapping": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_file": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "source_end": {
+            "type": "number",
+            "minimum": 0
+          },
+          "output_start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "rendered_seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": [
+          "order",
+          "source_file",
+          "source_start",
+          "source_end",
+          "output_start",
+          "rendered_seconds"
+        ]
+      }
+    },
+    "source_sha256": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "cue_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "risk_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "asr_report_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "timeline_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "final_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "grouping_rules": {
+      "type": "object"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "maxItems": 2
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "timing_basis",
+    "text_basis",
+    "cues",
+    "risks",
+    "segment_mapping",
+    "source_sha256",
+    "cue_count",
+    "risk_count",
+    "asr_report_sha256",
+    "timeline_sha256",
+    "final_sha256",
+    "grouping_rules",
+    "files"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RoughCut subtitle draft and source mapping"
+}

@@ -1,6 +1,6 @@
 ---
 name: roughcut-planner
-description: Prepare, review and render a local talking-head rough cut. Use when users need timestamped transcription, reversible clip selection, safe cut points, or a reviewed FFmpeg export.
+description: Prepare, review and render a local talking-head rough cut. Use for timestamped transcription, reversible clip selection, safe cut points, reviewed FFmpeg exports or editable subtitles aligned to a cut.
 ---
 
 # RoughCut Planner
@@ -24,6 +24,8 @@ Selection preserves source input order. It does not invent roles, quality scores
 Review supports keep/remove, restore, move, exact input/output points, local segment playback, undo, session JSON and timeline CSV export. Changes clear review acknowledgement. Saving a session does not persist media or autoplay anything.
 
 Rendering validates ranges and real source duration, sorts contiguous order, normalizes dimensions/frame rate/audio, preserves originals and refuses overwriting old artifacts. The --reviewed flag is an acknowledgement, not proof that a human listened. Never claim it is proof.
+
+For subtitle drafts, add `--captions-from output/<session>/material_index.asr.json` to the reviewed render command. Read `docs/captions.md` first. The original ASR source hashes must match the selected media. Word timestamps are mapped to measured rendered-segment durations in the final order. Partial-cut words, zero-duration words and missing timing remain gaps with risk records, never invented timing. SRT and VTT are sidecars, not burned-in captions; both require listening and text review. Read captions.json against schemas/captions.schema.json and report any gaps. Whole-transcript corrections in CSV or configured replacements do not propagate to original ASR words. Do not claim these drafts contain the user's corrections or have been approved.
 
 ## Protect the user's material
 

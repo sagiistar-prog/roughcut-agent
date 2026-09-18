@@ -69,7 +69,7 @@ def digest(path: Path) -> str:
     return result.hexdigest()
 
 
-def render(timeline_path: Path, output_dir: Path, final_name: str, reviewed: bool = False) -> dict:
+def render(timeline_path: Path, output_dir: Path, final_name: str, reviewed: bool = False, captions_from: Path | None = None) -> dict:
     if not reviewed:
         raise ValueError('Review the timeline, then pass --reviewed to render')
     if timeline_path.name != 'timeline_review.csv':
@@ -80,28 +80,51 @@ def render(timeline_path: Path, output_dir: Path, final_name: str, reviewed: boo
         raise ValueError('Render output must stay inside output/')
     if Path(final_name).name != final_name or Path(final_name).suffix.lower() != '.mp4':
         raise ValueError('Final name must be a single MP4 filename')
-    reserved = (final_name, 'segments', 'edit_report.md', 'render.json', 'concat_list.txt')
+    subtitle_stem = Path(final_name).stem
+    reserved = (final_name, 'segments', 'edit_report.md', 'render.json', 'concat_list.txt', 'captions.json', subtitle_stem+'.srt', subtitle_stem+'.vtt')
     if any((output_dir / name).exists() for name in reserved):
         raise FileExistsError('Existing render artifacts are preserved. Choose a new output directory.')
-    validate_render_rows(rows)
-    rows.sort(key=lambda row: int(float(row['order'])))
     paths = {Path(row['source_file']).resolve() for row in rows}
     if any(not path.is_relative_to(ROOT) for path in paths):
         raise ValueError('Source media must stay inside this repository')
+    validate_render_rows(rows)
+    rows.sort(key=lambda row: int(float(row['order'])))
     hashes = {str(path.relative_to(ROOT)): digest(path) for path in paths}
+    caption_input, caption_rules, caption_input_hash = None, None, None
+    if captions_from is not None:
+        from captions import validate_sources, build_captions
+        from stage2_generate_timeline import load_yaml
+        captions_from = captions_from.resolve()
+        if not captions_from.is_relative_to(ROOT) or 'raw_duplicates_quarantine' in captions_from.parts:
+            raise ValueError('Choose an ASR report inside this repository, outside quarantine')
+        if captions_from.stat().st_size > 30_000_000:
+            raise ValueError('ASR report exceeds 30 MB')
+        caption_bytes = captions_from.read_bytes()
+        caption_input = json.loads(caption_bytes.decode('utf-8-sig'))
+        caption_input_hash = hashlib.sha256(caption_bytes).hexdigest()
+        caption_rules = load_yaml(ROOT / 'configs/editing_rules.yaml').get('subtitles', {})
+        validate_sources(caption_input, {Path(name).as_posix(): value for name, value in hashes.items()})
+        # Fail invalid ASR/grouping inputs before spending time rendering media.
+        build_captions(rows, [float(row['duration_seconds']) for row in rows], caption_input,
+                       {Path(name).as_posix(): value for name, value in hashes.items()}, ROOT, caption_rules)
     output_dir.mkdir(parents=True, exist_ok=True)
     report = {'schema_version': '1.0', 'status': 'rendering', 'review_acknowledged': True,
               'timeline_sha256': digest(timeline_path), 'source_sha256': hashes, 'rows': rows,
               'normalization': {'width': 1280, 'height': 720, 'fps': 30, 'audio_hz': 48000, 'audio_channels': 2}}
     report_path = output_dir / 'render.json'
     try:
-        segments = []
+        segments, segment_durations = [], []
         for row in rows:
             target = output_dir / 'segments' / f"segment_{int(float(row['order'])):03}.mp4"
             run_ffmpeg_cut(Path(row['source_file']), float(row['start_time']), float(row['duration_seconds']), target)
             segments.append(target)
+            duration_probe = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'json', str(target)], capture_output=True, text=True, check=True, timeout=30)
+            segment_duration = float(json.loads(duration_probe.stdout)['format']['duration'])
+            if not math.isfinite(segment_duration) or segment_duration <= 0:
+                raise ValueError('Rendered segment duration is invalid')
+            segment_durations.append(segment_duration)
         concat = output_dir / 'concat_list.txt'
-        concat.write_text(''.join("file '" + path.as_posix().replace("'", "'\\''") + "'\n" for path in segments), encoding='utf-8')
+        concat.write_text(''.join("file '" + path.as_posix().replace("'", "'\\''") + f"'\nduration {duration:.6f}\n" for path, duration in zip(segments, segment_durations)), encoding='utf-8')
         final = output_dir / final_name
         subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-n', '-f', 'concat', '-safe', '0', '-i', str(concat), '-c', 'copy', '-movflags', '+faststart', str(final)], check=True, timeout=3600)
         probe = subprocess.run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(final)], capture_output=True, text=True, check=True, timeout=30)
@@ -113,9 +136,29 @@ def render(timeline_path: Path, output_dir: Path, final_name: str, reviewed: boo
         unchanged = all(digest(ROOT / name) == value for name, value in hashes.items())
         if not unchanged:
             raise ValueError('Source changed during render')
+        report['segment_durations_seconds'] = segment_durations
+        if caption_input is not None:
+            from captions import build_captions, encode
+            captions = build_captions(rows, segment_durations, caption_input,
+                                      {Path(name).as_posix(): value for name, value in hashes.items()}, ROOT, caption_rules)
+            if any(cue['end_ms'] > math.ceil(actual * 1000) for cue in captions['cues']):
+                raise ValueError('Caption extends beyond the rendered media')
+            captions.update(asr_report_sha256=caption_input_hash, timeline_sha256=report['timeline_sha256'],
+                            final_sha256=digest(final), grouping_rules=caption_rules, files=[])
+            if captions['cues']:
+                for suffix, vtt in [('srt', False), ('vtt', True)]:
+                    name = subtitle_stem+'.'+suffix
+                    (output_dir/name).write_bytes(encode(captions['cues'], vtt).encode('utf-8'))
+                    captions['files'].append(name)
+            from jsonschema import Draft202012Validator
+            Draft202012Validator(json.loads((ROOT/'schemas/captions.schema.json').read_text(encoding='utf-8'))).validate(captions)
+            (output_dir/'captions.json').write_text(json.dumps(captions, ensure_ascii=False, indent=2, allow_nan=False), encoding='utf-8')
+            report['captions'] = {'status': 'needs_review', 'cue_count': captions['cue_count'], 'risk_count': captions['risk_count'],
+                                  'report': 'captions.json', 'files': captions['files']}
         report.update(status='complete', expected_seconds=round(expected, 3), actual_seconds=actual,
                       sources_unchanged=unchanged, final_sha256=digest(final), streams=info['streams'])
-        (output_dir / 'edit_report.md').write_text(f'# Render report\n\nRendered {len(rows)} reviewed clips in order. Expected {expected:.3f}s; actual {actual:.3f}s.\n\nOriginal source hashes unchanged. 720p letterbox, 30fps, stereo 48kHz.\n\nNo translation, subtitle burn-in or audio enhancement was performed.\n', encoding='utf-8')
+        caption_note = f"\n\nSubtitle draft: {report['captions']['cue_count']} cues; {report['captions']['risk_count']} risks. Review captions.json and listen before publishing." if caption_input is not None else ''
+        (output_dir / 'edit_report.md').write_text(f'# Render report\n\nRendered {len(rows)} reviewed clips in order. Expected {expected:.3f}s; actual {actual:.3f}s.\n\nOriginal source hashes unchanged. 720p letterbox, 30fps, stereo 48kHz.\n\nNo translation, subtitle burn-in or audio enhancement was performed.{caption_note}\n', encoding='utf-8')
     except Exception as exc:
         report.update(status='failed', error_type=type(exc).__name__)
         raise
@@ -130,6 +173,7 @@ if __name__ == '__main__':
     parser.add_argument('--output-dir', type=Path, default=Path('output/render'))
     parser.add_argument('--final-name', default='final_rough_cut.mp4')
     parser.add_argument('--reviewed', action='store_true')
+    parser.add_argument('--captions-from', type=Path, help='Original ASR JSON for optional timed SRT/VTT drafts')
     args = parser.parse_args()
-    report = render(args.timeline, args.output_dir, args.final_name, args.reviewed)
+    report = render(args.timeline, args.output_dir, args.final_name, args.reviewed, args.captions_from)
     print(f"Rendered {len(report['rows'])} clips; {report['actual_seconds']:.3f}s; sources unchanged.")

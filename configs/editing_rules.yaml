@@ -71,6 +71,16 @@ semantic_rules:
 
 subtitles:
   enabled: false
+  opt_in: captions_from_asr_report
+  output: sidecar_srt_and_vtt
+  timing: source_words_mapped_to_measured_rendered_segments
+  partial_word_policy: omit_and_report
+  missing_word_timing_policy: leave_gap_and_report
+  max_cue_characters: 42
+  max_cue_seconds: 4.0
+  max_word_gap_seconds: 0.75
+  require_source_hash_match: true
+  review_status: needs_review
   bilingual: false
   primary_language: zh
   secondary_language: en
