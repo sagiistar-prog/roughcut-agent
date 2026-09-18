@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
+import math
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -30,7 +32,7 @@ def run_ffmpeg_cut(source: Path, start: float, duration: float, target: Path) ->
     target.parent.mkdir(parents=True, exist_ok=True)
     command = [
         "ffmpeg",
-        "-y",
+        "-n",
         "-ss",
         f"{start:.3f}",
         "-i",
@@ -51,7 +53,7 @@ def run_ffmpeg_cut(source: Path, start: float, duration: float, target: Path) ->
 def run_ffmpeg_concat(list_file: Path, target: Path) -> None:
     command = [
         "ffmpeg",
-        "-y",
+        "-n",
         "-f",
         "concat",
         "-safe",
@@ -101,6 +103,15 @@ def write_report(rows: list[dict[str, str]], rendered: list[Path], skipped: list
 
 def render(timeline_path: Path, output_dir: Path, final_name: str) -> None:
     rows = read_timeline(timeline_path)
+    allowed = (Path(__file__).resolve().parents[1] / 'output').resolve()
+    output_dir = output_dir.resolve()
+    if not output_dir.is_relative_to(allowed):
+        raise ValueError('Render output must stay inside output/')
+    if Path(final_name).name != final_name or Path(final_name).suffix.lower() != '.mp4':
+        raise ValueError('Final name must be a single MP4 filename')
+    if any((output_dir / name).exists() for name in (final_name,'segments','edit_report.md','concat_list.txt')):
+        raise FileExistsError('Existing render artifacts are preserved. Choose a new output directory.')
+    validate_render_rows(rows)
     segments_dir = output_dir / "segments"
     final_video = output_dir / final_name
     report_path = output_dir / "edit_report.md"
@@ -135,6 +146,29 @@ def render(timeline_path: Path, output_dir: Path, final_name: str) -> None:
     run_ffmpeg_concat(concat_list, final_video)
     write_report(rows, rendered, skipped, report_path, final_video)
     print(f"Wrote {final_video.as_posix()} and {report_path.as_posix()}.")
+
+
+def validate_render_rows(rows: list[dict[str, str]]) -> None:
+    orders = set()
+    durations = {}
+    for row in rows:
+        source = Path(row.get('source_file', '')).resolve()
+        if not source.is_file(): raise ValueError('A timeline source is missing')
+        start = float(row['start_time']); end = float(row['end_time'])
+        duration = float(row['duration_seconds']); order = float(row['order'])
+        if not all(math.isfinite(x) for x in (start,end,duration,order)):
+            raise ValueError('Timeline contains non-finite values')
+        if start < 0 or end <= start or duration <= 0 or abs(end-start-duration) > .02:
+            raise ValueError('Timeline range and duration disagree')
+        if order < 1 or not order.is_integer() or order in orders:
+            raise ValueError('Timeline orders must be unique positive integers')
+        orders.add(order)
+        if source not in durations:
+            result = subprocess.run(['ffprobe','-v','error','-show_entries','format=duration',
+                '-of','json',str(source)],check=True,capture_output=True,text=True,timeout=30)
+            durations[source] = float(json.loads(result.stdout)['format']['duration'])
+        if not math.isfinite(durations[source]) or end > durations[source] + .05:
+            raise ValueError('Timeline extends beyond source duration')
 
 
 def parse_args() -> argparse.Namespace:

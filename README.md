@@ -1,5 +1,6 @@
 # RoughCut Review
 
+[本轮技术验收](docs/technical-audit-2026-09-18.md)
 
 [产品案例与指标](docs/product-case.md) | [能力证据](docs/capability-evidence.json) | [验收与边界](docs/validation.md)
 

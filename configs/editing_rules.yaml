@@ -100,3 +100,9 @@ safety:
 # Validation: reject non-finite, negative, reversed or out-of-media time ranges.
 # The total duration budget also applies to the first clip.
 # Tighter-pacing feedback updates both clip maximum fields consistently.
+
+render_validation:
+  reject_partial_render: true
+  reject_existing_outputs: true
+  verify_source_duration_with_ffprobe: true
+  restrict_outputs_to_output_directory: true

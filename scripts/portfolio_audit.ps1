@@ -1,5 +1,6 @@
 param(
-    [string]$Repository = "sagiistar-prog/roughcut-agent"
+    [string]$Repository = "sagiistar-prog/roughcut-agent",
+    [switch]$PreCommit
 )
 
 $ErrorActionPreference = "Continue"
@@ -32,8 +33,16 @@ Write-Section "Git Status"
 $statusOutput = Run-Git @("status", "--short", "--branch")
 $statusLines = @($statusOutput | Where-Object { $_ -and ($_ -notmatch "^## ") })
 if ($statusLines.Count -gt 0) {
-    foreach ($line in $statusLines) {
-        $failures.Add("Working tree is not clean: $line")
+    if ($PreCommit) {
+        & git diff --quiet
+        if ($LASTEXITCODE -ne 0) { $failures.Add("Pre-commit audit requires all tracked edits staged.") }
+        $untracked = @(& git ls-files --others --exclude-standard)
+        if ($untracked.Count -gt 0) { $failures.Add("Pre-commit audit requires new publication files staged.") }
+        Write-Host "Auditing staged publication; run clean-tree audit after commit."
+    } else {
+        foreach ($line in $statusLines) {
+            $failures.Add("Working tree is not clean: $line")
+        }
     }
 }
 
